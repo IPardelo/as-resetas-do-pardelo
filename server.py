@@ -1,15 +1,26 @@
 """
 As Resetas do Pardelo
+Servidor local moi sinxelo (só biblioteca estándar de Python).
 Garda cada receita como un ficheiro XML na carpeta "Receitas".
+
+Uso:
+    python server.py
+e a app ábrese no navegador.
 """
+import json
 import os
 import re
 import unicodedata
+import webbrowser
 import xml.etree.ElementTree as ET
 from datetime import datetime
+from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
+from urllib.parse import unquote
 
 BASE = os.path.dirname(os.path.abspath(__file__))
 RECEITAS = os.path.join(BASE, "Receitas")
+WEB = os.path.join(BASE, "web")
+PORTO = 8765
 
 os.makedirs(RECEITAS, exist_ok=True)
 
@@ -86,3 +97,62 @@ def listar():
             except Exception:
                 pass
     return sorted(saida, key=lambda r: r["titulo"].lower())
+
+
+# ---------- HTTP ----------
+
+class Manexador(SimpleHTTPRequestHandler):
+    def __init__(self, *a, **k):
+        super().__init__(*a, directory=WEB, **k)
+
+    def log_message(self, *a):
+        pass
+
+    def json(self, obx, estado=200):
+        corpo = json.dumps(obx, ensure_ascii=False).encode("utf-8")
+        self.send_response(estado)
+        self.send_header("Content-Type", "application/json; charset=utf-8")
+        self.send_header("Content-Length", str(len(corpo)))
+        self.end_headers()
+        self.wfile.write(corpo)
+
+    def id_da_ruta(self):
+        return unquote(self.path.split("/api/receitas/", 1)[1]) if "/api/receitas/" in self.path else ""
+
+    def do_GET(self):
+        if self.path == "/api/receitas":
+            return self.json(listar())
+        if self.path.startswith("/api/receitas/"):
+            try:
+                return self.json(ler_receita(self.id_da_ruta()))
+            except Exception:
+                return self.json({"erro": "Non atopada"}, 404)
+        return super().do_GET()
+
+    def do_POST(self):
+        if self.path != "/api/receitas":
+            return self.json({"erro": "?"}, 404)
+        lonx = int(self.headers.get("Content-Length", 0))
+        try:
+            datos = json.loads(self.rfile.read(lonx).decode("utf-8"))
+            return self.json(gardar_receita(datos))
+        except Exception as e:
+            return self.json({"erro": str(e)}, 400)
+
+    def do_DELETE(self):
+        try:
+            os.remove(ruta(self.id_da_ruta()))
+            return self.json({"ok": True})
+        except Exception:
+            return self.json({"erro": "Non atopada"}, 404)
+
+
+if __name__ == "__main__":
+    servidor = ThreadingHTTPServer(("127.0.0.1", PORTO), Manexador)
+    url = f"http://127.0.0.1:{PORTO}"
+    print(f"\n  As Resetas do Pardelo  ->  {url}\n  (Ctrl+C para saír)\n")
+    webbrowser.open(url)
+    try:
+        servidor.serve_forever()
+    except KeyboardInterrupt:
+        pass
