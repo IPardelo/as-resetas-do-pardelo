@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="gl">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>As Resetas do Pardelo</title>
+  <link rel="stylesheet" href="style/css/style.css">
+</head>
+
+<body>
+
+  <div class="app">
+    <!-- Barra lateral -->
+    <aside class="lateral">
+      <div class="marca">
+        <span class="selo">R</span>
+        <div>
+          <strong>As Resetas</strong>
+          <small>do Pardelo</small>
+        </div>
+      </div>
+
+      <button class="btn primario ancho" id="nova">+ Nova receita</button>
+
+      <ul class="lista" id="lista"></ul>
+      <p class="baleiro-lista" id="baleiro-lista">Aínda non hai receitas.</p>
+    </aside>
+
+    <!-- Editor -->
+    <main class="principal">
+      <div class="barra">
+        <span class="estado" id="estado"></span>
+        <div class="accions">
+          <button class="btn fantasma" id="eliminar">Eliminar</button>
+        </div>
+      </div>
+
+      <article class="folla-editor">
+        <header class="cabeceira">
+          <textarea id="titulo" class="titulo" rows="1" placeholder="Título da receita"></textarea>
+        </header>
+
+        <section>
+          <h2>Ingredientes</h2>
+          <ul class="ingredientes" id="ingredientes"></ul>
+          <button class="engadir" id="engadir-ingrediente">+ Engadir ingrediente</button>
+        </section>
+
+        <section>
+          <h2>Pasos</h2>
+          <ol class="pasos" id="pasos"></ol>
+          <button class="engadir" id="engadir-paso">+ Engadir paso</button>
+        </section>
+
+      </article>
+    </main>
+  </div>
+
+  <div class="aviso" id="aviso"></div>
+
+  <script src="app.js"></script>
+</body>
+
+</html>
