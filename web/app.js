@@ -110,6 +110,30 @@ function crearLinha(k, i) {
     cambiou();
   });
 
+  campo.addEventListener("keydown", (e) => {
+    const n = indice(li);
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      engadirLinha(k, n + 1);
+    } else if (e.key === "Backspace" && campo.value === "" && arr(k).length > 1) {
+      e.preventDefault();
+      borrarLinha(k, n, true);
+    }
+  });
+
+  // Pegar unha lista => unha liña por elemento
+  campo.addEventListener("paste", (e) => {
+    const texto = e.clipboardData.getData("text");
+    const partes = texto.split(/\r?\n/).map(limparPrefixo).filter((t) => t.trim());
+    if (partes.length < 2) return;
+    e.preventDefault();
+    const n = indice(li);
+    const antes = arr(k)[n];
+    arr(k).splice(n, 1, ...(antes.trim() ? [antes, ...partes] : partes));
+    pintarLinhas(k);
+    cambiou();
+  });
+
   const borrar = document.createElement("button");
   borrar.className = "borrar";
   borrar.title = "Borrar";
@@ -119,6 +143,10 @@ function crearLinha(k, i) {
   li.append(campo, borrar);
   if (ePaso) requestAnimationFrame(() => axustarAltura(campo));
   return li;
+}
+
+function limparPrefixo(t) {
+  return t.replace(/^\s*(?:[-*•·]|\d+[.)-]?)\s+/, "").trim();
 }
 
 function indice(li) {
@@ -157,6 +185,9 @@ el.titulo.addEventListener("input", () => {
   actual.titulo = el.titulo.value.replace(/\n/g, " ");
   axustarAltura(el.titulo);
   cambiou();
+});
+el.titulo.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") { e.preventDefault(); enfocar("ingredientes", 0); }
 });
 
 // Aínda non se garda: só se marca que hai cambios
