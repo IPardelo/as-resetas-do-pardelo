@@ -4,13 +4,15 @@
 
 **As receitas da casa, gardadas por ti**
 
-Cada receita nun ficheiro XML, na túa carpeta e sen depender de ninguén.
+Escribe os ingredientes e os pasos de cada receita.
 
 <br>
 
 ![Python](https://img.shields.io/badge/Python-3.9+-3776AB?style=flat-square&logo=python&logoColor=white)
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-vanilla-F7DF1E?style=flat-square&logo=javascript&logoColor=black)
 ![XML](https://img.shields.io/badge/datos-XML-c2562f?style=flat-square)
-![Version](https://img.shields.io/badge/version-0.1.0-e9b44c?style=flat-square)
+![Version](https://img.shields.io/badge/version-0.2.0-e9b44c?style=flat-square)
 
 </div>
 
@@ -23,8 +25,8 @@ nos seus servidores e énchense de anuncios. 'As Resetas do Pardelo' é o contra
 
 ## Funcionalidades
 
-- 💾 **Unha receita, un ficheiro** — cada receita gárdase en `Receitas/nome-da-receita.xml`, fácil de ler, copiar ou meter nun repositorio
-- 🔌 **API local** — listar, ler, gardar e eliminar receitas desde `http://127.0.0.1:8765/api/receitas`
+- 🥣 **Crear receitas** — título, ingredientes e pasos nunha soa folla.
+- 💾 **Gardado automático** — cada cambio gárdase ao momento en `Receitas/nome-da-receita.xml`. Se cambias o título, o ficheiro renoméase só. Sen botón de gardar.
 
 ## Configuración
 
@@ -33,6 +35,7 @@ nos seus servidores e énchense de anuncios. 'As Resetas do Pardelo' é o contra
 | Requisito | Detalle |
 |---|---|
 | **Python 3.9+** | Só a biblioteca estándar, sen nada que instalar |
+| **Un navegador** | Calquera actual (Edge, Chrome, Firefox…) |
 
 ### ▶️ Arrancar a app
 
@@ -40,7 +43,7 @@ nos seus servidores e énchense de anuncios. 'As Resetas do Pardelo' é o contra
 python server.py
 ```
 
-A API queda en `http://127.0.0.1:8765/api/receitas`.
+Ábrese no navegador, en `http://127.0.0.1:8765`.
 
 A app só escoita en `127.0.0.1`, así que non é accesible desde outros equipos da rede.
 
@@ -68,11 +71,23 @@ metelo nun repositorio:
 
 ```
 as-resetas-do-pardelo/
-├── server.py                   # Servidor local (stdlib) — le/escribe os XML
+├── server.py                   # Servidor local (stdlib) — serve a web e le/escribe os XML
+│
+├── web/                        # Interface — HTML, CSS e JS sen frameworks nin compilación
+│   ├── index.html              # Estrutura da app
+│   ├── app.js                  # Editor e gardado automático
+│   └── style/
+│       └── css/style.css       # Estilos da app
+│
 └── Receitas/                   # Unha receita por ficheiro .xml (os teus datos)
 ```
 
 ## Evolución por versión
+
+### v0.2.0
+- Interface web: **editor visual** de título, ingredientes e pasos, con atallos de teclado e pegado de listas.
+- **Gardado automático** mentres escribes; se cambia o título, o ficheiro renoméase só.
+- Lista lateral coas receitas gardadas.
 
 ### v0.1.0
 - Servidor local en Python, sen dependencias, que garda cada receita nun ficheiro XML dentro de `Receitas/`.

@@ -10,6 +10,8 @@ const el = {
 
 let receitas = [];
 let actual = baleira();
+let temporizador = null;
+let gardando = Promise.resolve();
 
 function baleira() {
   return {
@@ -65,6 +67,7 @@ function normalizar(r) {
 }
 
 async function abrir(id) {
+  await gardarAgora();
   try {
     actual = normalizar(await api.ler(id));
   } catch (err) {
@@ -72,10 +75,11 @@ async function abrir(id) {
   }
   pintarEditor();
   pintarLista();
-  estado("", "");
+  estado("ok", "Gardado");
 }
 
 async function nova() {
+  await gardarAgora();
   actual = baleira();
   pintarEditor();
   pintarLista();
@@ -180,7 +184,7 @@ function axustarAltura(t) {
   t.style.height = t.scrollHeight + "px";
 }
 
-// ---------- Título ----------
+// ---------- Gardado automático ----------
 el.titulo.addEventListener("input", () => {
   actual.titulo = el.titulo.value.replace(/\n/g, " ");
   axustarAltura(el.titulo);
@@ -190,9 +194,38 @@ el.titulo.addEventListener("keydown", (e) => {
   if (e.key === "Enter") { e.preventDefault(); enfocar("ingredientes", 0); }
 });
 
-// Aínda non se garda: só se marca que hai cambios
+function tenContido() {
+  return actual.titulo.trim() ||
+    actual.ingredientes.some((t) => t.trim()) ||
+    actual.pasos.some((t) => t.trim());
+}
+
 function cambiou() {
-  estado("pendente", "Sen gardar");
+  if (!tenContido()) return;
+  estado("pendente", "Gardando…");
+  clearTimeout(temporizador);
+  temporizador = setTimeout(gardarAgora, 700);
+}
+
+function gardarAgora() {
+  if (!temporizador) return gardando;
+  clearTimeout(temporizador);
+  temporizador = null;
+  gardando = gardando.then(async () => {
+    // Copia tomada xusto antes de enviar (así sempre leva o id máis recente)
+    const copia = JSON.parse(JSON.stringify(actual));
+    try {
+      const r = await api.gardar(copia);
+      if (r.erro) throw new Error(r.erro);
+      if (actual.id === copia.id) actual.id = r.id;
+      estado("ok", "Gardado en Receitas/" + r.id + ".xml");
+      await cargarLista();
+    } catch (err) {
+      estado("pendente", "Non se puido gardar");
+      avisar("Erro ao gardar: " + err.message);
+    }
+  });
+  return gardando;
 }
 
 function estado(clase, texto) {
@@ -211,6 +244,23 @@ function avisar(texto) {
 $("#nova").onclick = nova;
 $("#engadir-ingrediente").onclick = () => engadirLinha("ingredientes");
 $("#engadir-paso").onclick = () => engadirLinha("pasos");
+$("#eliminar").onclick = async () => {
+  if (!actual.id) { actual = baleira(); pintarEditor(); return; }
+  if (!confirm(`Seguro que queres eliminar "${actual.titulo || "Receita sen título"}"?`)) return;
+  clearTimeout(temporizador); temporizador = null;
+  try {
+    await api.borrar(actual.id);
+  } catch (err) {
+    return avisar("Non se puido eliminar: " + err.message);
+  }
+  avisar("Receita eliminada");
+  actual = baleira();
+  pintarEditor();
+  estado("", "");
+  cargarLista();
+};
+
+window.addEventListener("beforeunload", () => { if (temporizador) gardarAgora(); });
 
 // ---------- Inicio ----------
 pintarEditor();
