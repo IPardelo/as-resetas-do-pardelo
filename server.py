@@ -41,9 +41,11 @@ def ruta(rid):
 
 def ler_receita(rid):
     raiz = ET.parse(ruta(rid)).getroot()
+    foto = raiz.find("foto")
     return {
         "id": rid,
         "titulo": raiz.findtext("titulo", ""),
+        "foto": f"data:{foto.get('tipo', 'image/jpeg')};base64,{foto.text}" if foto is not None and foto.text else "",
         "ingredientes": [e.text or "" for e in raiz.iter("ingrediente")],
         "pasos": [e.text or "" for e in raiz.iter("paso")],
         "creada": raiz.get("creada", ""),
@@ -68,6 +70,11 @@ def gardar_receita(datos):
 
     raiz = ET.Element("receita", creada=creada, modificada=agora)
     ET.SubElement(raiz, "titulo").text = titulo
+
+    foto = datos.get("foto") or ""
+    m = re.match(r"data:([^;]+);base64,(.*)", foto, re.S)
+    if m:
+        ET.SubElement(raiz, "foto", tipo=m.group(1)).text = m.group(2)
 
     ings = ET.SubElement(raiz, "ingredientes")
     for i in datos.get("ingredientes", []):
