@@ -3,7 +3,7 @@ const $ = (s) => document.querySelector(s);
 
 const el = {
   lista: $("#lista"), baleiroLista: $("#baleiro-lista"),
-  titulo: $("#titulo"),
+  titulo: $("#titulo"), foto: $("#foto"), fotoImg: $("#foto-img"), ficheiro: $("#ficheiro"),
   ingredientes: $("#ingredientes"), pasos: $("#pasos"),
   estado: $("#estado"), aviso: $("#aviso"),
 };
@@ -15,7 +15,7 @@ let gardando = Promise.resolve();
 
 function baleira() {
   return {
-    id: "", titulo: "",
+    id: "", titulo: "", foto: "",
     ingredientes: [""], pasos: [""],
   };
 }
@@ -90,8 +90,14 @@ async function nova() {
 function pintarEditor() {
   el.titulo.value = actual.titulo;
   axustarAltura(el.titulo);
+  pintarFoto();
   pintarLinhas("ingredientes");
   pintarLinhas("pasos");
+}
+
+function pintarFoto() {
+  el.foto.classList.toggle("con-foto", !!actual.foto);
+  el.fotoImg.src = actual.foto || "";
 }
 
 function pintarLinhas(k) {
@@ -184,6 +190,47 @@ function axustarAltura(t) {
   t.style.height = t.scrollHeight + "px";
 }
 
+// ---------- Foto ----------
+el.ficheiro.addEventListener("change", () => {
+  if (el.ficheiro.files[0]) cargarFoto(el.ficheiro.files[0]);
+  el.ficheiro.value = "";
+});
+$("#quitar-foto").addEventListener("click", (e) => {
+  e.preventDefault(); e.stopPropagation();
+  actual.foto = ""; pintarFoto(); cambiou();
+});
+["dragenter", "dragover"].forEach((ev) => el.foto.addEventListener(ev, (e) => {
+  e.preventDefault(); el.foto.classList.add("arrastrando");
+}));
+["dragleave", "drop"].forEach((ev) => el.foto.addEventListener(ev, (e) => {
+  e.preventDefault(); el.foto.classList.remove("arrastrando");
+}));
+el.foto.addEventListener("drop", (e) => {
+  const f = e.dataTransfer.files[0];
+  if (f && f.type.startsWith("image/")) cargarFoto(f);
+});
+
+// Reduce a foto para que o XML non pese demasiado
+function cargarFoto(ficheiro) {
+  const img = new Image();
+  img.onload = () => {
+    const max = 1200;
+    const esc = Math.min(1, max / Math.max(img.width, img.height));
+    const c = document.createElement("canvas");
+    c.width = Math.round(img.width * esc);
+    c.height = Math.round(img.height * esc);
+    const ctx = c.getContext("2d");
+    ctx.fillStyle = "#fff";
+    ctx.fillRect(0, 0, c.width, c.height);
+    ctx.drawImage(img, 0, 0, c.width, c.height);
+    actual.foto = c.toDataURL("image/jpeg", 0.82);
+    URL.revokeObjectURL(img.src);
+    pintarFoto();
+    cambiou();
+  };
+  img.src = URL.createObjectURL(ficheiro);
+}
+
 // ---------- Gardado automático ----------
 el.titulo.addEventListener("input", () => {
   actual.titulo = el.titulo.value.replace(/\n/g, " ");
@@ -195,7 +242,7 @@ el.titulo.addEventListener("keydown", (e) => {
 });
 
 function tenContido() {
-  return actual.titulo.trim() ||
+  return actual.titulo.trim() || actual.foto ||
     actual.ingredientes.some((t) => t.trim()) ||
     actual.pasos.some((t) => t.trim());
 }
