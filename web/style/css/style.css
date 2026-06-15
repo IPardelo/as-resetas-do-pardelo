@@ -111,6 +111,18 @@ textarea {
   font-weight: 600;
 }
 
+.miniatura {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  flex: none;
+  background: var(--liña) center/cover no-repeat;
+  display: grid;
+  place-items: center;
+  color: var(--suave);
+  font: 700 16px var(--serif);
+}
+
 .lista span {
   overflow: hidden;
   text-overflow: ellipsis;

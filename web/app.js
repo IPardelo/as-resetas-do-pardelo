@@ -46,9 +46,13 @@ function pintarLista() {
   for (const r of visibles) {
     const li = document.createElement("li");
     li.className = r.id === actual.id ? "activa" : "";
+    const mini = document.createElement("div");
+    mini.className = "miniatura";
+    if (r.foto) mini.style.backgroundImage = `url("${r.foto}")`;
+    else mini.textContent = (r.titulo[0] || "?").toUpperCase();
     const nome = document.createElement("span");
     nome.textContent = r.titulo;
-    li.append(nome);
+    li.append(mini, nome);
     li.onclick = () => abrir(r.id);
     el.lista.append(li);
   }

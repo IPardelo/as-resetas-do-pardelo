@@ -4,7 +4,7 @@
 
 **As receitas da casa, gardadas por ti**
 
-Escribe os ingredientes e os pasos de cada receita.
+Escribe os ingredientes e os pasos de cada receita, engádelle unha foto.
 
 <br>
 
@@ -12,7 +12,7 @@ Escribe os ingredientes e os pasos de cada receita.
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-vanilla-F7DF1E?style=flat-square&logo=javascript&logoColor=black)
 ![XML](https://img.shields.io/badge/datos-XML-c2562f?style=flat-square)
-![Version](https://img.shields.io/badge/version-0.2.0-e9b44c?style=flat-square)
+![Version](https://img.shields.io/badge/version-0.3.0-e9b44c?style=flat-square)
 
 </div>
 
@@ -25,7 +25,7 @@ nos seus servidores e énchense de anuncios. 'As Resetas do Pardelo' é o contra
 
 ## Funcionalidades
 
-- 🥣 **Crear receitas** — título, ingredientes e pasos nunha soa folla.
+- 🥣 **Crear receitas** — título, foto, ingredientes e pasos nunha soa folla.
 - 💾 **Gardado automático** — cada cambio gárdase ao momento en `Receitas/nome-da-receita.xml`. Se cambias o título, o ficheiro renoméase só. Sen botón de gardar.
 
 ## Configuración
@@ -56,6 +56,7 @@ metelo nun repositorio:
 <?xml version='1.0' encoding='utf-8'?>
 <receita creada="2026-09-27T13:21:55" modificada="2026-09-27T14:05:10">
   <titulo>Brazo de gitano</titulo>
+  <foto tipo="image/jpeg">/9j/4AAQSkZJRg…</foto>
   <ingredientes>
     <ingrediente>6/7 ovos</ingrediente>
     <ingrediente>6 cucharadas de azucre</ingrediente>
@@ -84,6 +85,10 @@ as-resetas-do-pardelo/
 
 ## Evolución por versión
 
+### v0.3.0
+- **Foto da receita**: clic ou arrastrar, reducida a 1200 px e gardada dentro do propio XML.
+- Miniaturas das fotos na lista lateral.
+
 ### v0.2.0
 - Interface web: **editor visual** de título, ingredientes e pasos, con atallos de teclado e pegado de listas.
 - **Gardado automático** mentres escribes; se cambia o título, o ficheiro renoméase só.
@@ -95,7 +100,6 @@ as-resetas-do-pardelo/
 
 ## Folla de ruta
 
-- [ ] Foto de cada receita
 - [ ] Exportar a PDF para imprimir
 - [ ] Categorías e etiquetas
 - [ ] Ver e engadir receitas desde o móbil
