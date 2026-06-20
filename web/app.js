@@ -5,7 +5,7 @@ const el = {
   lista: $("#lista"), baleiroLista: $("#baleiro-lista"),
   titulo: $("#titulo"), foto: $("#foto"), fotoImg: $("#foto-img"), ficheiro: $("#ficheiro"),
   ingredientes: $("#ingredientes"), pasos: $("#pasos"),
-  estado: $("#estado"), aviso: $("#aviso"),
+  estado: $("#estado"), aviso: $("#aviso"), pdf: $("#folla-pdf"),
 };
 
 let receitas = [];
@@ -291,10 +291,40 @@ function avisar(texto) {
   avisar.t = setTimeout(() => el.aviso.classList.remove("visible"), 2400);
 }
 
+// ---------- PDF ----------
+function exportarPDF() {
+  if (!tenContido()) return avisar("A receita está baleira");
+  const esc = (t) => t.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const ings = actual.ingredientes.filter((t) => t.trim());
+  const pasos = actual.pasos.filter((t) => t.trim());
+  el.pdf.innerHTML = `
+    <header class="pdf-cabeceira">
+      <div class="pdf-titulo">
+        <h1>${esc(actual.titulo || "Receita sen título")}</h1>
+      </div>
+      ${actual.foto ? `<img class="pdf-foto" src="${actual.foto}" alt="">` : ""}
+    </header>
+    ${ings.length ? `<h2>Ingredientes</h2>
+      <ul class="pdf-ingredientes">${ings.map((t) => `<li>${esc(t.trim())}</li>`).join("")}</ul>` : ""}
+    ${pasos.length ? `<h2>Pasos</h2>
+      <ol class="pdf-pasos">${pasos.map((t) => `<li>${esc(t)}</li>`).join("")}</ol>` : ""}
+    <div class="pdf-pe">As Resetas do Pardelo</div>`;
+
+  const tituloVello = document.title;
+  document.title = actual.titulo || "Receita"; // nome suxerido para o PDF
+  const imprimir = () => {
+    window.print();
+    document.title = tituloVello;
+  };
+  const img = el.pdf.querySelector("img");
+  if (img && !img.complete) img.onload = imprimir; else imprimir();
+}
+
 // ---------- Botóns ----------
 $("#nova").onclick = nova;
 $("#engadir-ingrediente").onclick = () => engadirLinha("ingredientes");
 $("#engadir-paso").onclick = () => engadirLinha("pasos");
+$("#exportar").onclick = exportarPDF;
 $("#eliminar").onclick = async () => {
   if (!actual.id) { actual = baleira(); pintarEditor(); return; }
   if (!confirm(`Seguro que queres eliminar "${actual.titulo || "Receita sen título"}"?`)) return;
