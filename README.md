@@ -2,9 +2,9 @@
 
 # As Resetas do Pardelo
 
-**As receitas da casa, gardadas por ti**
+**As receitas da casa, gardadas por ti e listas para imprimir**
 
-Escribe os ingredientes e os pasos de cada receita, engádelle unha foto.
+Escribe os ingredientes e os pasos de cada receita, engádelle unha foto e expórtaa a un PDF nun clic.
 
 <br>
 
@@ -12,7 +12,7 @@ Escribe os ingredientes e os pasos de cada receita, engádelle unha foto.
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-vanilla-F7DF1E?style=flat-square&logo=javascript&logoColor=black)
 ![XML](https://img.shields.io/badge/datos-XML-c2562f?style=flat-square)
-![Version](https://img.shields.io/badge/version-0.3.0-e9b44c?style=flat-square)
+![Version](https://img.shields.io/badge/version-0.4.0-e9b44c?style=flat-square)
 
 </div>
 
@@ -27,6 +27,7 @@ nos seus servidores e énchense de anuncios. 'As Resetas do Pardelo' é o contra
 
 - 🥣 **Crear receitas** — título, foto, ingredientes e pasos nunha soa folla.
 - 💾 **Gardado automático** — cada cambio gárdase ao momento en `Receitas/nome-da-receita.xml`. Se cambias o título, o ficheiro renoméase só. Sen botón de gardar.
+- 📄 **Exportar a PDF** — título e foto arriba, ingredientes, os pasos numerados. Usa o diálogo de impresión do navegador → *Gardar como PDF*, co nome da receita xa posto
 
 ## Configuración
 
@@ -75,15 +76,19 @@ as-resetas-do-pardelo/
 ├── server.py                   # Servidor local (stdlib) — serve a web e le/escribe os XML
 │
 ├── web/                        # Interface — HTML, CSS e JS sen frameworks nin compilación
-│   ├── index.html              # Estrutura da app
-│   ├── app.js                  # Editor e gardado automático
+│   ├── index.html              # Estrutura da app e da folla do PDF
+│   ├── app.js                  # Editor, gardado automático e exportación
 │   └── style/
-│       └── css/style.css       # Estilos da app
+│       └── css/style.css       # Estilos da app e @media print para o PDF
 │
 └── Receitas/                   # Unha receita por ficheiro .xml (os teus datos)
 ```
 
 ## Evolución por versión
+
+### v0.4.0
+- **Exportación a PDF** co deseño de folla de receita (título e foto arriba, ingredientes e pasos numerados).
+- Atallo <kbd>Ctrl</kbd>+<kbd>P</kbd> para exportar.
 
 ### v0.3.0
 - **Foto da receita**: clic ou arrastrar, reducida a 1200 px e gardada dentro do propio XML.
@@ -100,7 +105,6 @@ as-resetas-do-pardelo/
 
 ## Folla de ruta
 
-- [ ] Exportar a PDF para imprimir
 - [ ] Categorías e etiquetas
 - [ ] Ver e engadir receitas desde o móbil
 - [ ] Escalar as cantidades segundo o número de racións

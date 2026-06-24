@@ -341,6 +341,11 @@ $("#eliminar").onclick = async () => {
   cargarLista();
 };
 
+document.addEventListener("keydown", (e) => {
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "p") {
+    e.preventDefault(); exportarPDF();
+  }
+});
 window.addEventListener("beforeunload", () => { if (temporizador) gardarAgora(); });
 
 // ---------- Inicio ----------
