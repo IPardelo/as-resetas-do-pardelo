@@ -12,7 +12,7 @@ Escribe os ingredientes e os pasos de cada receita, engádelle unha foto e expó
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-vanilla-F7DF1E?style=flat-square&logo=javascript&logoColor=black)
 ![XML](https://img.shields.io/badge/datos-XML-c2562f?style=flat-square)
-![Version](https://img.shields.io/badge/version-0.4.0-e9b44c?style=flat-square)
+![Version](https://img.shields.io/badge/version-0.4.1-e9b44c?style=flat-square)
 
 </div>
 
@@ -85,6 +85,9 @@ as-resetas-do-pardelo/
 ```
 
 ## Evolución por versión
+
+### v0.4.1
+- O navegador xa non garda versións vellas da app entre actualizacións.
 
 ### v0.4.0
 - **Exportación a PDF** co deseño de folla de receita (título e foto arriba, ingredientes e pasos numerados).

@@ -115,6 +115,11 @@ class Manexador(SimpleHTTPRequestHandler):
     def log_message(self, *a):
         pass
 
+    def end_headers(self):
+        # Que o navegador non garde versións vellas da app
+        self.send_header("Cache-Control", "no-store")
+        super().end_headers()
+
     def json(self, obx, estado=200):
         corpo = json.dumps(obx, ensure_ascii=False).encode("utf-8")
         self.send_response(estado)
