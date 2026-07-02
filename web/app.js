@@ -2,7 +2,7 @@
 const $ = (s) => document.querySelector(s);
 
 const el = {
-  lista: $("#lista"), baleiroLista: $("#baleiro-lista"),
+  lista: $("#lista"), baleiroLista: $("#baleiro-lista"), buscar: $("#buscar"),
   titulo: $("#titulo"), foto: $("#foto"), fotoImg: $("#foto-img"), ficheiro: $("#ficheiro"),
   ingredientes: $("#ingredientes"), pasos: $("#pasos"),
   estado: $("#estado"), aviso: $("#aviso"), pdf: $("#folla-pdf"),
@@ -41,7 +41,11 @@ async function cargarLista() {
 }
 
 function pintarLista() {
-  const visibles = receitas;
+  const q = el.buscar.value.trim().toLowerCase();
+
+  const visibles = receitas.filter((r) => {
+    return r.titulo.toLowerCase().includes(q);
+  });
   el.lista.innerHTML = "";
   for (const r of visibles) {
     const li = document.createElement("li");
@@ -56,6 +60,7 @@ function pintarLista() {
     li.onclick = () => abrir(r.id);
     el.lista.append(li);
   }
+  el.baleiroLista.textContent = receitas.length ? "Ningunha receita con ese filtro." : "Aínda non hai receitas.";
   el.baleiroLista.style.display = visibles.length ? "none" : "block";
 }
 
@@ -340,6 +345,7 @@ $("#eliminar").onclick = async () => {
   estado("", "");
   cargarLista();
 };
+el.buscar.addEventListener("input", pintarLista);
 
 document.addEventListener("keydown", (e) => {
   if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "p") {
