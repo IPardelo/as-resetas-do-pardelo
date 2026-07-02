@@ -12,7 +12,7 @@ Escribe os ingredientes e os pasos de cada receita, engádelle unha foto e expó
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-vanilla-F7DF1E?style=flat-square&logo=javascript&logoColor=black)
 ![XML](https://img.shields.io/badge/datos-XML-c2562f?style=flat-square)
-![Version](https://img.shields.io/badge/version-0.4.1-e9b44c?style=flat-square)
+![Version](https://img.shields.io/badge/version-0.5.0-e9b44c?style=flat-square)
 
 </div>
 
@@ -26,7 +26,8 @@ nos seus servidores e énchense de anuncios. 'As Resetas do Pardelo' é o contra
 ## Funcionalidades
 
 - 🥣 **Crear receitas** — título, foto, ingredientes e pasos nunha soa folla.
-- 💾 **Gardado automático** — cada cambio gárdase ao momento en `Receitas/nome-da-receita.xml`. Se cambias o título, o ficheiro renoméase só. Sen botón de gardar.
+- 💾 **Gardado automático** — cada cambio gárdase ao momento en `Receitas/nome-da-receita.xml`. Se cambias o título, o ficheiro renoméase só. Sen botón de gardar (aínda que <kbd>Ctrl</kbd>+<kbd>S</kbd> tamén funciona)
+- 🔎 **Busca** — filtra a lista polo nome da receita
 - 📄 **Exportar a PDF** — título e foto arriba, ingredientes, os pasos numerados. Usa o diálogo de impresión do navegador → *Gardar como PDF*, co nome da receita xa posto
 
 ## Configuración
@@ -77,7 +78,7 @@ as-resetas-do-pardelo/
 │
 ├── web/                        # Interface — HTML, CSS e JS sen frameworks nin compilación
 │   ├── index.html              # Estrutura da app e da folla do PDF
-│   ├── app.js                  # Editor, gardado automático e exportación
+│   ├── app.js                  # Editor, gardado automático, busca e exportación
 │   └── style/
 │       └── css/style.css       # Estilos da app e @media print para o PDF
 │
@@ -85,6 +86,10 @@ as-resetas-do-pardelo/
 ```
 
 ## Evolución por versión
+
+### v0.5.0
+- **Busca por nome** na lista lateral.
+- Atallo <kbd>Ctrl</kbd>+<kbd>S</kbd> para gardar ao momento.
 
 ### v0.4.1
 - O navegador xa non garda versións vellas da app entre actualizacións.

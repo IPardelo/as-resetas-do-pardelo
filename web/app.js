@@ -348,6 +348,10 @@ $("#eliminar").onclick = async () => {
 el.buscar.addEventListener("input", pintarLista);
 
 document.addEventListener("keydown", (e) => {
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "s") {
+    e.preventDefault();
+    if (tenContido()) { temporizador = temporizador || 1; gardarAgora().then(() => avisar("Gardado")); }
+  }
   if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "p") {
     e.preventDefault(); exportarPDF();
   }
