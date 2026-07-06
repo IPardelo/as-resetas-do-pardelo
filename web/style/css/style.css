@@ -462,6 +462,72 @@ li:focus-within .borrar {
   background: #faf3e9;
 }
 
+/* Bloques de pasos */
+.nome-bloque {
+  border: none;
+  outline: none;
+  background: none;
+  padding: 2px 4px;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  color: inherit;
+  width: 14ch;
+  min-width: 6ch;
+  border-bottom: 1px dashed transparent;
+}
+
+.nome-bloque:hover,
+.nome-bloque:focus {
+  border-bottom-color: var(--acento);
+}
+
+.nome-bloque::placeholder {
+  color: #d9b7a6;
+}
+
+.borrar-bloque {
+  order: 3;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: #c9bcae;
+  font: 500 12px var(--sans);
+  letter-spacing: 0;
+  text-transform: none;
+  padding: 2px 6px;
+  border-radius: 6px;
+}
+
+.borrar-bloque:hover {
+  color: #b3261e;
+  background: #fbeee9;
+}
+
+.engadir-bloque {
+  display: block;
+  width: 100%;
+  margin-top: 30px;
+  padding: 14px;
+  border: 2px dashed var(--liña);
+  border-radius: 14px;
+  background: none;
+  color: var(--suave);
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.engadir-bloque small {
+  font-weight: 400;
+  opacity: .8;
+}
+
+.engadir-bloque:hover {
+  border-color: var(--acento);
+  color: var(--acento);
+  background: #fdf6f1;
+}
+
 .axuda {
   margin: 40px 0 0;
   color: #b0a395;
