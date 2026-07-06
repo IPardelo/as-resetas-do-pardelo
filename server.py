@@ -47,7 +47,11 @@ def ler_receita(rid):
         "titulo": raiz.findtext("titulo", ""),
         "foto": f"data:{foto.get('tipo', 'image/jpeg')};base64,{foto.text}" if foto is not None and foto.text else "",
         "ingredientes": [e.text or "" for e in raiz.iter("ingrediente")],
-        "pasos": [e.text or "" for e in raiz.iter("paso")],
+        # Cada <pasos nome="..."> é un bloque (Biscoito, Crema...)
+        "bloques": [
+            {"nome": b.get("nome", ""), "pasos": [e.text or "" for e in b.iter("paso")]}
+            for b in raiz.findall("pasos")
+        ],
         "creada": raiz.get("creada", ""),
         "modificada": raiz.get("modificada", ""),
     }
@@ -81,10 +85,14 @@ def gardar_receita(datos):
         if i.strip():
             ET.SubElement(ings, "ingrediente").text = i.strip()
 
-    pasos = ET.SubElement(raiz, "pasos")
-    for p in datos.get("pasos", []):
-        if p.strip():
-            ET.SubElement(pasos, "paso").text = p.strip()
+    for bloque in datos.get("bloques", []):
+        nome = (bloque.get("nome") or "").strip()
+        lista = [p.strip() for p in bloque.get("pasos", []) if p.strip()]
+        if not lista and not nome:
+            continue
+        pasos = ET.SubElement(raiz, "pasos", nome=nome) if nome else ET.SubElement(raiz, "pasos")
+        for p in lista:
+            ET.SubElement(pasos, "paso").text = p
 
     ET.indent(raiz, space="  ")
     ET.ElementTree(raiz).write(ruta(rid), encoding="utf-8", xml_declaration=True)

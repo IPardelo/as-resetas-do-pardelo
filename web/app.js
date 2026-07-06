@@ -4,7 +4,7 @@ const $ = (s) => document.querySelector(s);
 const el = {
   lista: $("#lista"), baleiroLista: $("#baleiro-lista"), buscar: $("#buscar"),
   titulo: $("#titulo"), foto: $("#foto"), fotoImg: $("#foto-img"), ficheiro: $("#ficheiro"),
-  ingredientes: $("#ingredientes"), pasos: $("#pasos"),
+  ingredientes: $("#ingredientes"), bloques: $("#bloques"),
   estado: $("#estado"), aviso: $("#aviso"), pdf: $("#folla-pdf"),
 };
 
@@ -16,7 +16,7 @@ let gardando = Promise.resolve();
 function baleira() {
   return {
     id: "", titulo: "", foto: "",
-    ingredientes: [""], pasos: [""],
+    ingredientes: [""], bloques: [{ nome: "", pasos: [""] }],
   };
 }
 
@@ -65,13 +65,14 @@ function pintarLista() {
 }
 
 // ---------- Editor ----------
-// Listas editables: "ingredientes" ou "pasos"
-function arr(k) { return actual[k]; }
-function cont(k) { return el[k]; }
+// Listas editables: "ingredientes" ou "b0", "b1"… (bloques de pasos)
+function arr(k) { return k === "ingredientes" ? actual.ingredientes : actual.bloques[+k.slice(1)].pasos; }
+function cont(k) { return k === "ingredientes" ? el.ingredientes : document.querySelector(`[data-lista="${k}"]`); }
 
 function normalizar(r) {
   if (!r.ingredientes || !r.ingredientes.length) r.ingredientes = [""];
-  if (!r.pasos || !r.pasos.length) r.pasos = [""];
+  if (!r.bloques || !r.bloques.length) r.bloques = [{ nome: "", pasos: [""] }];
+  r.bloques.forEach((b) => { b.nome = b.nome || ""; b.pasos = b.pasos || []; if (!b.pasos.length) b.pasos = [""]; });
   return r;
 }
 
@@ -101,12 +102,66 @@ function pintarEditor() {
   axustarAltura(el.titulo);
   pintarFoto();
   pintarLinhas("ingredientes");
-  pintarLinhas("pasos");
+  pintarBloques();
 }
 
 function pintarFoto() {
   el.foto.classList.toggle("con-foto", !!actual.foto);
   el.fotoImg.src = actual.foto || "";
+}
+
+function pintarBloques() {
+  el.bloques.innerHTML = "";
+  actual.bloques.forEach((b, i) => {
+    const sec = document.createElement("section");
+    const h2 = document.createElement("h2");
+    h2.append("Pasos");
+
+    const nome = document.createElement("input");
+    nome.className = "nome-bloque";
+    nome.value = b.nome;
+    nome.placeholder = actual.bloques.length > 1 ? "(nome)" : "";
+    nome.title = "Nome do bloque (opcional), p. ex. Biscoito";
+    const axustarNome = () => (nome.style.width = Math.max(nome.value.length, nome.placeholder.length, 6) + 2 + "ch");
+    axustarNome();
+    nome.addEventListener("input", () => { b.nome = nome.value; axustarNome(); cambiou(); });
+    nome.addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); enfocar("b" + i, 0); } });
+    h2.append(nome);
+
+    if (actual.bloques.length > 1) {
+      const quitar = document.createElement("button");
+      quitar.className = "borrar-bloque";
+      quitar.textContent = "Quitar bloque";
+      quitar.onclick = () => {
+        const ten = b.pasos.some((p) => p.trim());
+        if (ten && !confirm(`Quitar o bloque "${b.nome || "Pasos"}" cos seus pasos?`)) return;
+        actual.bloques.splice(i, 1);
+        pintarBloques();
+        cambiou();
+      };
+      h2.append(quitar);
+    }
+
+    const ol = document.createElement("ol");
+    ol.className = "pasos";
+    ol.dataset.lista = "b" + i;
+
+    const mais = document.createElement("button");
+    mais.className = "engadir";
+    mais.textContent = "+ Engadir paso";
+    mais.onclick = () => engadirLinha("b" + i);
+
+    sec.append(h2, ol, mais);
+    el.bloques.append(sec);
+    pintarLinhas("b" + i);
+  });
+}
+
+function engadirBloque() {
+  actual.bloques.push({ nome: "", pasos: [""] });
+  pintarBloques();
+  const nomes = el.bloques.querySelectorAll(".nome-bloque");
+  nomes[nomes.length - 1].focus();
 }
 
 function pintarLinhas(k) {
@@ -253,7 +308,7 @@ el.titulo.addEventListener("keydown", (e) => {
 function tenContido() {
   return actual.titulo.trim() || actual.foto ||
     actual.ingredientes.some((t) => t.trim()) ||
-    actual.pasos.some((t) => t.trim());
+    actual.bloques.some((b) => b.nome.trim() || b.pasos.some((t) => t.trim()));
 }
 
 function cambiou() {
@@ -301,7 +356,9 @@ function exportarPDF() {
   if (!tenContido()) return avisar("A receita está baleira");
   const esc = (t) => t.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   const ings = actual.ingredientes.filter((t) => t.trim());
-  const pasos = actual.pasos.filter((t) => t.trim());
+  const bloques = actual.bloques
+    .map((b) => ({ nome: b.nome.trim(), pasos: b.pasos.filter((t) => t.trim()) }))
+    .filter((b) => b.pasos.length);
   el.pdf.innerHTML = `
     <header class="pdf-cabeceira">
       <div class="pdf-titulo">
@@ -311,8 +368,8 @@ function exportarPDF() {
     </header>
     ${ings.length ? `<h2>Ingredientes</h2>
       <ul class="pdf-ingredientes">${ings.map((t) => `<li>${esc(t.trim())}</li>`).join("")}</ul>` : ""}
-    ${pasos.length ? `<h2>Pasos</h2>
-      <ol class="pdf-pasos">${pasos.map((t) => `<li>${esc(t)}</li>`).join("")}</ol>` : ""}
+    ${bloques.map((b) => `<section class="pdf-bloque"><h2>Pasos${b.nome ? " " + esc(b.nome) : ""}</h2>
+      <ol class="pdf-pasos">${b.pasos.map((t) => `<li>${esc(t)}</li>`).join("")}</ol></section>`).join("")}
     <div class="pdf-pe">As Resetas do Pardelo</div>`;
 
   const tituloVello = document.title;
@@ -328,7 +385,7 @@ function exportarPDF() {
 // ---------- Botóns ----------
 $("#nova").onclick = nova;
 $("#engadir-ingrediente").onclick = () => engadirLinha("ingredientes");
-$("#engadir-paso").onclick = () => engadirLinha("pasos");
+$("#engadir-bloque").onclick = engadirBloque;
 $("#exportar").onclick = exportarPDF;
 $("#eliminar").onclick = async () => {
   if (!actual.id) { actual = baleira(); pintarEditor(); return; }
