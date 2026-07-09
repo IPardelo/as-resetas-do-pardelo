@@ -681,3 +681,31 @@ kbd {
     text-align: right;
   }
 }
+
+@media (max-width: 800px) {
+  .app {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+
+  .lateral {
+    max-height: 40vh;
+  }
+
+  .principal {
+    padding: 16px;
+  }
+
+  .folla-editor {
+    padding: 28px 22px;
+  }
+
+  .cabeceira {
+    flex-direction: column-reverse;
+  }
+
+  .foto {
+    width: 100%;
+    height: 200px;
+  }
+}

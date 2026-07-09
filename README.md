@@ -12,7 +12,7 @@ Escribe os ingredientes e os pasos de cada receita, engádelle unha foto e expó
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-vanilla-F7DF1E?style=flat-square&logo=javascript&logoColor=black)
 ![XML](https://img.shields.io/badge/datos-XML-c2562f?style=flat-square)
-![Version](https://img.shields.io/badge/version-0.6.0-e9b44c?style=flat-square)
+![Version](https://img.shields.io/badge/version-0.6.1-e9b44c?style=flat-square)
 
 </div>
 
@@ -88,6 +88,9 @@ as-resetas-do-pardelo/
 ```
 
 ## Evolución por versión
+
+### v0.6.1
+- Deseño adaptado a pantallas pequenas.
 
 ### v0.6.0
 - **Bloques de pasos** con nome propio (*Pasos biscoito*, *Pasos crema*…), compatibles coas receitas anteriores.
