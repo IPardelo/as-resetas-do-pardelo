@@ -45,6 +45,7 @@ def ler_receita(rid):
     return {
         "id": rid,
         "titulo": raiz.findtext("titulo", ""),
+        "categoria": raiz.findtext("categoria", ""),
         "foto": f"data:{foto.get('tipo', 'image/jpeg')};base64,{foto.text}" if foto is not None and foto.text else "",
         "ingredientes": [e.text or "" for e in raiz.iter("ingrediente")],
         # Cada <pasos nome="..."> é un bloque (Biscoito, Crema...)
@@ -74,6 +75,10 @@ def gardar_receita(datos):
 
     raiz = ET.Element("receita", creada=creada, modificada=agora)
     ET.SubElement(raiz, "titulo").text = titulo
+
+    categoria = (datos.get("categoria") or "").strip()
+    if categoria:
+        ET.SubElement(raiz, "categoria").text = categoria
 
     foto = datos.get("foto") or ""
     m = re.match(r"data:([^;]+);base64,(.*)", foto, re.S)
