@@ -6,7 +6,10 @@ const el = {
   titulo: $("#titulo"), foto: $("#foto"), fotoImg: $("#foto-img"), ficheiro: $("#ficheiro"),
   ingredientes: $("#ingredientes"), bloques: $("#bloques"),
   estado: $("#estado"), aviso: $("#aviso"), pdf: $("#folla-pdf"),
+  categorias: $("#categorias"),
 };
+
+const CATEGORIAS = { comida: "Comida", postre: "Postre" };
 
 let receitas = [];
 let actual = baleira();
@@ -15,7 +18,7 @@ let gardando = Promise.resolve();
 
 function baleira() {
   return {
-    id: "", titulo: "", foto: "",
+    id: "", titulo: "", foto: "", categoria: "",
     ingredientes: [""], bloques: [{ nome: "", pasos: [""] }],
   };
 }
@@ -70,6 +73,7 @@ function arr(k) { return k === "ingredientes" ? actual.ingredientes : actual.blo
 function cont(k) { return k === "ingredientes" ? el.ingredientes : document.querySelector(`[data-lista="${k}"]`); }
 
 function normalizar(r) {
+  r.categoria = r.categoria || "";
   if (!r.ingredientes || !r.ingredientes.length) r.ingredientes = [""];
   if (!r.bloques || !r.bloques.length) r.bloques = [{ nome: "", pasos: [""] }];
   r.bloques.forEach((b) => { b.nome = b.nome || ""; b.pasos = b.pasos || []; if (!b.pasos.length) b.pasos = [""]; });
@@ -101,9 +105,23 @@ function pintarEditor() {
   el.titulo.value = actual.titulo;
   axustarAltura(el.titulo);
   pintarFoto();
+  pintarCategoria();
   pintarLinhas("ingredientes");
   pintarBloques();
 }
+
+// ---------- Categoría ----------
+function pintarCategoria() {
+  el.categorias.querySelectorAll("button").forEach((b) => b.classList.toggle("activo", b.dataset.cat === actual.categoria));
+}
+
+el.categorias.addEventListener("click", (e) => {
+  const b = e.target.closest("button");
+  if (!b) return;
+  actual.categoria = actual.categoria === b.dataset.cat ? "" : b.dataset.cat;
+  pintarCategoria();
+  cambiou();
+});
 
 function pintarFoto() {
   el.foto.classList.toggle("con-foto", !!actual.foto);

@@ -41,7 +41,14 @@
 
       <article class="folla-editor">
         <header class="cabeceira">
-          <textarea id="titulo" class="titulo" rows="1" placeholder="Título da receita"></textarea>
+          <div class="cabeceira-texto">
+            <textarea id="titulo" class="titulo" rows="1" placeholder="Título da receita"></textarea>
+
+            <div class="categorias" id="categorias">
+              <button type="button" data-cat="comida">🍽 Comida</button>
+              <button type="button" data-cat="postre">🍰 Postre</button>
+            </div>
+          </div>
 
           <label class="foto" id="foto" title="Fai clic ou arrastra unha imaxe">
             <input type="file" id="ficheiro" accept="image/*" hidden>

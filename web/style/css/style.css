@@ -563,6 +563,46 @@ kbd {
   transform: translate(-50%, 0);
 }
 
+
+/* ---------- Categoría e etiquetas ---------- */
+.cabeceira-texto {
+  flex: 1;
+  min-width: 0;
+}
+
+.cabeceira-texto .titulo {
+  width: 100%;
+}
+
+.categorias {
+  display: flex;
+  gap: 8px;
+  margin: 16px 0 10px;
+}
+
+.categorias button {
+  border: 1px solid var(--liña);
+  background: var(--papel);
+  color: var(--suave);
+  padding: 6px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all .15s;
+}
+
+.categorias button:hover {
+  border-color: var(--acento);
+  color: var(--acento);
+}
+
+.categorias button.activo {
+  background: var(--acento);
+  border-color: var(--acento);
+  color: #fff;
+}
+
 /* ---------- Versión PDF ---------- */
 .folla-pdf {
   display: none;
