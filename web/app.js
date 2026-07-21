@@ -7,9 +7,11 @@ const el = {
   ingredientes: $("#ingredientes"), bloques: $("#bloques"),
   estado: $("#estado"), aviso: $("#aviso"), pdf: $("#folla-pdf"),
   categorias: $("#categorias"),
+  filtroCat: $("#filtro-cat"),
 };
 
 const CATEGORIAS = { comida: "Comida", postre: "Postre" };
+let filtroCat = "";
 
 let receitas = [];
 let actual = baleira();
@@ -18,7 +20,7 @@ let gardando = Promise.resolve();
 
 function baleira() {
   return {
-    id: "", titulo: "", foto: "", categoria: "",
+    id: "", titulo: "", foto: "", categoria: filtroCat,
     ingredientes: [""], bloques: [{ nome: "", pasos: [""] }],
   };
 }
@@ -46,7 +48,10 @@ async function cargarLista() {
 function pintarLista() {
   const q = el.buscar.value.trim().toLowerCase();
 
+  el.filtroCat.querySelectorAll("button").forEach((b) => b.classList.toggle("activo", b.dataset.cat === filtroCat));
+
   const visibles = receitas.filter((r) => {
+    if (filtroCat && r.categoria !== filtroCat) return false;
     return r.titulo.toLowerCase().includes(q);
   });
   el.lista.innerHTML = "";
@@ -57,9 +62,19 @@ function pintarLista() {
     mini.className = "miniatura";
     if (r.foto) mini.style.backgroundImage = `url("${r.foto}")`;
     else mini.textContent = (r.titulo[0] || "?").toUpperCase();
+    const textos = document.createElement("div");
+    textos.className = "textos";
     const nome = document.createElement("span");
     nome.textContent = r.titulo;
-    li.append(mini, nome);
+    textos.append(nome);
+    const det = [CATEGORIAS[r.categoria]].filter(Boolean).join(" · ");
+    if (det) {
+      const d = document.createElement("small");
+      d.className = "detalle";
+      d.textContent = det;
+      textos.append(d);
+    }
+    li.append(mini, textos);
     li.onclick = () => abrir(r.id);
     el.lista.append(li);
   }
@@ -121,6 +136,13 @@ el.categorias.addEventListener("click", (e) => {
   actual.categoria = actual.categoria === b.dataset.cat ? "" : b.dataset.cat;
   pintarCategoria();
   cambiou();
+});
+
+el.filtroCat.addEventListener("click", (e) => {
+  const b = e.target.closest("button");
+  if (!b) return;
+  filtroCat = b.dataset.cat;
+  pintarLista();
 });
 
 function pintarFoto() {
@@ -374,6 +396,9 @@ function exportarPDF() {
   if (!tenContido()) return avisar("A receita está baleira");
   const esc = (t) => t.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   const ings = actual.ingredientes.filter((t) => t.trim());
+  const meta = [
+    ...(actual.categoria ? [`<span class="cat">${CATEGORIAS[actual.categoria]}</span>`] : []),
+  ];
   const bloques = actual.bloques
     .map((b) => ({ nome: b.nome.trim(), pasos: b.pasos.filter((t) => t.trim()) }))
     .filter((b) => b.pasos.length);
@@ -381,6 +406,7 @@ function exportarPDF() {
     <header class="pdf-cabeceira">
       <div class="pdf-titulo">
         <h1>${esc(actual.titulo || "Receita sen título")}</h1>
+        ${meta.length ? `<div class="pdf-meta">${meta.join("")}</div>` : ""}
       </div>
       ${actual.foto ? `<img class="pdf-foto" src="${actual.foto}" alt="">` : ""}
     </header>

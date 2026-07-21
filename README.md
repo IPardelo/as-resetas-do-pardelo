@@ -12,7 +12,7 @@ Escribe os ingredientes e os pasos de cada receita, engádelle unha foto e expó
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-vanilla-F7DF1E?style=flat-square&logo=javascript&logoColor=black)
 ![XML](https://img.shields.io/badge/datos-XML-c2562f?style=flat-square)
-![Version](https://img.shields.io/badge/version-0.6.1-e9b44c?style=flat-square)
+![Version](https://img.shields.io/badge/version-0.7.0-e9b44c?style=flat-square)
 
 </div>
 
@@ -27,8 +27,9 @@ nos seus servidores e énchense de anuncios. 'As Resetas do Pardelo' é o contra
 
 - 🥣 **Crear receitas** — título, foto, ingredientes e pasos nunha soa folla.
 - 💾 **Gardado automático** — cada cambio gárdase ao momento en `Receitas/nome-da-receita.xml`. Se cambias o título, o ficheiro renoméase só. Sen botón de gardar (aínda que <kbd>Ctrl</kbd>+<kbd>S</kbd> tamén funciona)
+- 🍽️ **Comidas e postres** — clasifica cada receita e filtra a lista cun clic
 - 🔎 **Busca** — filtra a lista polo nome da receita
-- 📄 **Exportar a PDF** — título e foto arriba, ingredientes, cada bloque de pasos. Usa o diálogo de impresión do navegador → *Gardar como PDF*, co nome da receita xa posto
+- 📄 **Exportar a PDF** — título e foto arriba, categoría, ingredientes, cada bloque de pasos. Usa o diálogo de impresión do navegador → *Gardar como PDF*, co nome da receita xa posto
 
 ## Configuración
 
@@ -58,6 +59,7 @@ metelo nun repositorio:
 <?xml version='1.0' encoding='utf-8'?>
 <receita creada="2026-09-27T13:21:55" modificada="2026-09-27T14:05:10">
   <titulo>Brazo de gitano</titulo>
+  <categoria>postre</categoria>
   <foto tipo="image/jpeg">/9j/4AAQSkZJRg…</foto>
   <ingredientes>
     <ingrediente>6/7 ovos</ingrediente>
@@ -80,7 +82,7 @@ as-resetas-do-pardelo/
 │
 ├── web/                        # Interface — HTML, CSS e JS sen frameworks nin compilación
 │   ├── index.html              # Estrutura da app e da folla do PDF
-│   ├── app.js                  # Editor, gardado automático, busca e exportación
+│   ├── app.js                  # Editor, gardado automático, filtros, busca e exportación
 │   └── style/
 │       └── css/style.css       # Estilos da app e @media print para o PDF
 │
@@ -88,6 +90,10 @@ as-resetas-do-pardelo/
 ```
 
 ## Evolución por versión
+
+### v0.7.0
+- **Categorías** (comida / postre) con filtro na lista lateral.
+- A categoría aparece debaixo do nome na lista e no PDF.
 
 ### v0.6.1
 - Deseño adaptado a pantallas pequenas.
