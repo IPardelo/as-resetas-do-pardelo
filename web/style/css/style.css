@@ -603,6 +603,54 @@ kbd {
   color: #fff;
 }
 
+.etiquetas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  background: #fbf0d9;
+  color: #8a5a12;
+  border-radius: 999px;
+  padding: 3px 4px 3px 11px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.chip button {
+  border: none;
+  background: none;
+  color: inherit;
+  opacity: .5;
+  cursor: pointer;
+  font-size: 15px;
+  line-height: 1;
+  padding: 0 5px;
+}
+
+.chip button:hover {
+  opacity: 1;
+}
+
+#nova-etiqueta {
+  border: none;
+  outline: none;
+  background: none;
+  font-size: 13px;
+  padding: 4px 6px;
+  width: 220px;
+  color: var(--suave);
+}
+
+#nova-etiqueta:focus {
+  color: var(--tinta);
+}
+
 /* Filtros da lateral */
 .filtros {
   display: flex;

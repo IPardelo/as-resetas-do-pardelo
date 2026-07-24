@@ -124,7 +124,7 @@ def listar():
         if f.endswith(".xml"):
             try:
                 r = ler_receita(f[:-4])
-                saida.append({k: r[k] for k in ("id", "titulo", "foto", "categoria", "modificada")})
+                saida.append({k: r[k] for k in ("id", "titulo", "foto", "categoria", "etiquetas", "modificada")})
             except Exception:
                 pass
     return sorted(saida, key=lambda r: r["titulo"].lower())

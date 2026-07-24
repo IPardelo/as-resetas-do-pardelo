@@ -6,7 +6,8 @@ const el = {
   titulo: $("#titulo"), foto: $("#foto"), fotoImg: $("#foto-img"), ficheiro: $("#ficheiro"),
   ingredientes: $("#ingredientes"), bloques: $("#bloques"),
   estado: $("#estado"), aviso: $("#aviso"), pdf: $("#folla-pdf"),
-  categorias: $("#categorias"),
+  categorias: $("#categorias"), etiquetas: $("#etiquetas"), novaEtiqueta: $("#nova-etiqueta"),
+  todasEtiquetas: $("#todas-etiquetas"),
   filtroCat: $("#filtro-cat"),
 };
 
@@ -20,7 +21,7 @@ let gardando = Promise.resolve();
 
 function baleira() {
   return {
-    id: "", titulo: "", foto: "", categoria: filtroCat,
+    id: "", titulo: "", foto: "", categoria: filtroCat, etiquetas: [],
     ingredientes: [""], bloques: [{ nome: "", pasos: [""] }],
   };
 }
@@ -48,6 +49,9 @@ async function cargarLista() {
 function pintarLista() {
   const q = el.buscar.value.trim().toLowerCase();
 
+  // Etiquetas xa usadas (para suxerir)
+  const todas = [...new Set(receitas.flatMap((r) => r.etiquetas || []))].sort();
+  el.todasEtiquetas.innerHTML = todas.map((e) => `<option value="${e.replace(/"/g, "&quot;")}">`).join("");
   el.filtroCat.querySelectorAll("button").forEach((b) => b.classList.toggle("activo", b.dataset.cat === filtroCat));
 
   const visibles = receitas.filter((r) => {
@@ -89,6 +93,7 @@ function cont(k) { return k === "ingredientes" ? el.ingredientes : document.quer
 
 function normalizar(r) {
   r.categoria = r.categoria || "";
+  r.etiquetas = r.etiquetas || [];
   if (!r.ingredientes || !r.ingredientes.length) r.ingredientes = [""];
   if (!r.bloques || !r.bloques.length) r.bloques = [{ nome: "", pasos: [""] }];
   r.bloques.forEach((b) => { b.nome = b.nome || ""; b.pasos = b.pasos || []; if (!b.pasos.length) b.pasos = [""]; });
@@ -121,11 +126,12 @@ function pintarEditor() {
   axustarAltura(el.titulo);
   pintarFoto();
   pintarCategoria();
+  pintarEtiquetas();
   pintarLinhas("ingredientes");
   pintarBloques();
 }
 
-// ---------- Categoría ----------
+// ---------- Categoría e etiquetas ----------
 function pintarCategoria() {
   el.categorias.querySelectorAll("button").forEach((b) => b.classList.toggle("activo", b.dataset.cat === actual.categoria));
 }
@@ -137,6 +143,43 @@ el.categorias.addEventListener("click", (e) => {
   pintarCategoria();
   cambiou();
 });
+
+function pintarEtiquetas() {
+  el.etiquetas.querySelectorAll(".chip").forEach((c) => c.remove());
+  actual.etiquetas.forEach((t, i) => {
+    const chip = document.createElement("span");
+    chip.className = "chip";
+    chip.textContent = "#" + t;
+    const x = document.createElement("button");
+    x.type = "button";
+    x.title = "Quitar etiqueta";
+    x.textContent = "×";
+    x.onclick = () => { actual.etiquetas.splice(i, 1); pintarEtiquetas(); cambiou(); };
+    chip.append(x);
+    el.etiquetas.insertBefore(chip, el.novaEtiqueta);
+  });
+}
+
+function engadirEtiqueta() {
+  const t = el.novaEtiqueta.value.replace(/^#/, "").replace(/,/g, "").trim().toLowerCase();
+  el.novaEtiqueta.value = "";
+  if (!t || actual.etiquetas.includes(t)) return;
+  actual.etiquetas.push(t);
+  pintarEtiquetas();
+  cambiou();
+}
+
+el.novaEtiqueta.addEventListener("keydown", (e) => {
+  if (e.key === "Enter" || e.key === ",") { e.preventDefault(); engadirEtiqueta(); }
+  else if (e.key === "Backspace" && !el.novaEtiqueta.value && actual.etiquetas.length) {
+    actual.etiquetas.pop(); pintarEtiquetas(); cambiou();
+  }
+});
+// Ao escoller unha suxestión da lista
+el.novaEtiqueta.addEventListener("input", (e) => {
+  if (e.inputType === "insertReplacementText" || !e.inputType) engadirEtiqueta();
+});
+el.novaEtiqueta.addEventListener("blur", engadirEtiqueta);
 
 el.filtroCat.addEventListener("click", (e) => {
   const b = e.target.closest("button");
@@ -346,7 +389,7 @@ el.titulo.addEventListener("keydown", (e) => {
 });
 
 function tenContido() {
-  return actual.titulo.trim() || actual.foto ||
+  return actual.titulo.trim() || actual.foto || actual.etiquetas.length ||
     actual.ingredientes.some((t) => t.trim()) ||
     actual.bloques.some((b) => b.nome.trim() || b.pasos.some((t) => t.trim()));
 }
