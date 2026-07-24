@@ -46,6 +46,7 @@ def ler_receita(rid):
         "id": rid,
         "titulo": raiz.findtext("titulo", ""),
         "categoria": raiz.findtext("categoria", ""),
+        "etiquetas": [e.text for e in raiz.iter("etiqueta") if e.text],
         "foto": f"data:{foto.get('tipo', 'image/jpeg')};base64,{foto.text}" if foto is not None and foto.text else "",
         "ingredientes": [e.text or "" for e in raiz.iter("ingrediente")],
         # Cada <pasos nome="..."> é un bloque (Biscoito, Crema...)
@@ -79,6 +80,16 @@ def gardar_receita(datos):
     categoria = (datos.get("categoria") or "").strip()
     if categoria:
         ET.SubElement(raiz, "categoria").text = categoria
+
+    etiquetas = []
+    for e in datos.get("etiquetas", []):
+        e = e.strip().lower()
+        if e and e not in etiquetas:
+            etiquetas.append(e)
+    if etiquetas:
+        eti = ET.SubElement(raiz, "etiquetas")
+        for e in etiquetas:
+            ET.SubElement(eti, "etiqueta").text = e
 
     foto = datos.get("foto") or ""
     m = re.match(r"data:([^;]+);base64,(.*)", foto, re.S)
