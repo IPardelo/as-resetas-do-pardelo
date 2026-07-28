@@ -12,7 +12,7 @@ Escribe os ingredientes e os pasos de cada receita, engádelle unha foto e expó
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-vanilla-F7DF1E?style=flat-square&logo=javascript&logoColor=black)
 ![XML](https://img.shields.io/badge/datos-XML-c2562f?style=flat-square)
-![Version](https://img.shields.io/badge/version-0.7.0-e9b44c?style=flat-square)
+![Version](https://img.shields.io/badge/version-0.8.0-e9b44c?style=flat-square)
 
 </div>
 
@@ -28,8 +28,9 @@ nos seus servidores e énchense de anuncios. 'As Resetas do Pardelo' é o contra
 - 🥣 **Crear receitas** — título, foto, ingredientes e pasos nunha soa folla.
 - 💾 **Gardado automático** — cada cambio gárdase ao momento en `Receitas/nome-da-receita.xml`. Se cambias o título, o ficheiro renoméase só. Sen botón de gardar (aínda que <kbd>Ctrl</kbd>+<kbd>S</kbd> tamén funciona)
 - 🍽️ **Comidas e postres** — clasifica cada receita e filtra a lista cun clic
-- 🔎 **Busca** — filtra a lista polo nome da receita
-- 📄 **Exportar a PDF** — título e foto arriba, categoría, ingredientes, cada bloque de pasos. Usa o diálogo de impresión do navegador → *Gardar como PDF*, co nome da receita xa posto
+- 🏷️ **Etiquetas libres** — *salsas*, *sen forno*, *chocolate*… con suxestións das que xa usaches para non ter "salsa" e "salsas" á vez. Preme unha etiqueta na lista para ver só esas receitas
+- 🔎 **Busca** — filtra a lista polo nome da receita ou polas súas etiquetas
+- 📄 **Exportar a PDF** — título e foto arriba, categoría e etiquetas, ingredientes, cada bloque de pasos. Usa o diálogo de impresión do navegador → *Gardar como PDF*, co nome da receita xa posto
 
 ## Configuración
 
@@ -60,6 +61,9 @@ metelo nun repositorio:
 <receita creada="2026-09-27T13:21:55" modificada="2026-09-27T14:05:10">
   <titulo>Brazo de gitano</titulo>
   <categoria>postre</categoria>
+  <etiquetas>
+    <etiqueta>biscoitos</etiqueta>
+  </etiquetas>
   <foto tipo="image/jpeg">/9j/4AAQSkZJRg…</foto>
   <ingredientes>
     <ingrediente>6/7 ovos</ingrediente>
@@ -90,6 +94,10 @@ as-resetas-do-pardelo/
 ```
 
 ## Evolución por versión
+
+### v0.8.0
+- **Etiquetas** libres con suxestións das que xa usaches e filtro por etiqueta.
+- A busca tamén mira nas etiquetas.
 
 ### v0.7.0
 - **Categorías** (comida / postre) con filtro na lista lateral.
@@ -127,7 +135,6 @@ as-resetas-do-pardelo/
 
 ## Folla de ruta
 
-- [ ] Categorías e etiquetas
 - [ ] Ver e engadir receitas desde o móbil
 - [ ] Escalar as cantidades segundo o número de racións
 - [ ] Exportar varias receitas xuntas nun libro en PDF

@@ -8,11 +8,12 @@ const el = {
   estado: $("#estado"), aviso: $("#aviso"), pdf: $("#folla-pdf"),
   categorias: $("#categorias"), etiquetas: $("#etiquetas"), novaEtiqueta: $("#nova-etiqueta"),
   todasEtiquetas: $("#todas-etiquetas"),
-  filtroCat: $("#filtro-cat"),
+  filtroCat: $("#filtro-cat"), filtroEti: $("#filtro-etiquetas"),
 };
 
 const CATEGORIAS = { comida: "Comida", postre: "Postre" };
 let filtroCat = "";
+let filtroEtiqueta = "";
 
 let receitas = [];
 let actual = baleira();
@@ -49,14 +50,24 @@ async function cargarLista() {
 function pintarLista() {
   const q = el.buscar.value.trim().toLowerCase();
 
-  // Etiquetas xa usadas (para suxerir)
+  // Etiquetas existentes (para filtrar e para suxerir)
   const todas = [...new Set(receitas.flatMap((r) => r.etiquetas || []))].sort();
+  if (filtroEtiqueta && !todas.includes(filtroEtiqueta)) filtroEtiqueta = "";
+  el.filtroEti.innerHTML = "";
+  for (const e of todas) {
+    const b = document.createElement("button");
+    b.textContent = "#" + e;
+    b.className = e === filtroEtiqueta ? "activo" : "";
+    b.onclick = () => { filtroEtiqueta = filtroEtiqueta === e ? "" : e; pintarLista(); };
+    el.filtroEti.append(b);
+  }
   el.todasEtiquetas.innerHTML = todas.map((e) => `<option value="${e.replace(/"/g, "&quot;")}">`).join("");
   el.filtroCat.querySelectorAll("button").forEach((b) => b.classList.toggle("activo", b.dataset.cat === filtroCat));
 
   const visibles = receitas.filter((r) => {
     if (filtroCat && r.categoria !== filtroCat) return false;
-    return r.titulo.toLowerCase().includes(q);
+    if (filtroEtiqueta && !(r.etiquetas || []).includes(filtroEtiqueta)) return false;
+    return r.titulo.toLowerCase().includes(q) || (r.etiquetas || []).some((e) => e.includes(q));
   });
   el.lista.innerHTML = "";
   for (const r of visibles) {
@@ -71,7 +82,7 @@ function pintarLista() {
     const nome = document.createElement("span");
     nome.textContent = r.titulo;
     textos.append(nome);
-    const det = [CATEGORIAS[r.categoria]].filter(Boolean).join(" · ");
+    const det = [CATEGORIAS[r.categoria], ...(r.etiquetas || []).map((e) => "#" + e)].filter(Boolean).join(" · ");
     if (det) {
       const d = document.createElement("small");
       d.className = "detalle";
@@ -441,6 +452,7 @@ function exportarPDF() {
   const ings = actual.ingredientes.filter((t) => t.trim());
   const meta = [
     ...(actual.categoria ? [`<span class="cat">${CATEGORIAS[actual.categoria]}</span>`] : []),
+    ...actual.etiquetas.map((t) => `<span>#${esc(t)}</span>`),
   ];
   const bloques = actual.bloques
     .map((b) => ({ nome: b.nome.trim(), pasos: b.pasos.filter((t) => t.trim()) }))
