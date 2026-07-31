@@ -873,6 +873,15 @@ kbd {
     color: var(--acento);
   }
 
+  .pdf-notas {
+    background: #fdf8ee;
+    border-left: .8mm solid var(--acento-2);
+    padding: 3mm 5mm;
+    border-radius: 0 2mm 2mm 0;
+    white-space: pre-line;
+    break-inside: avoid;
+  }
+
   .pdf-pe {
     margin-top: 10mm;
     padding-top: 3mm;

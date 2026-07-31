@@ -4,7 +4,8 @@
 
 **As receitas da casa, gardadas por ti e listas para imprimir**
 
-Escribe os ingredientes e os pasos de cada receita, engádelle unha foto e expórtaa a un PDF nun clic.
+Escribe os ingredientes, os pasos e as notas de cada receita, engádelle unha foto e
+expórtaa a un PDF nun clic.
 
 <br>
 
@@ -12,7 +13,7 @@ Escribe os ingredientes e os pasos de cada receita, engádelle unha foto e expó
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-vanilla-F7DF1E?style=flat-square&logo=javascript&logoColor=black)
 ![XML](https://img.shields.io/badge/datos-XML-c2562f?style=flat-square)
-![Version](https://img.shields.io/badge/version-0.8.0-e9b44c?style=flat-square)
+![Version](https://img.shields.io/badge/version-0.9.0-e9b44c?style=flat-square)
 
 </div>
 
@@ -25,12 +26,13 @@ nos seus servidores e énchense de anuncios. 'As Resetas do Pardelo' é o contra
 
 ## Funcionalidades
 
-- 🥣 **Crear receitas** — título, foto, ingredientes e pasos nunha soa folla.
+- 🥣 **Crear receitas** — título, foto, ingredientes, pasos e notas nunha soa folla.
 - 💾 **Gardado automático** — cada cambio gárdase ao momento en `Receitas/nome-da-receita.xml`. Se cambias o título, o ficheiro renoméase só. Sen botón de gardar (aínda que <kbd>Ctrl</kbd>+<kbd>S</kbd> tamén funciona)
 - 🍽️ **Comidas e postres** — clasifica cada receita e filtra a lista cun clic
 - 🏷️ **Etiquetas libres** — *salsas*, *sen forno*, *chocolate*… con suxestións das que xa usaches para non ter "salsa" e "salsas" á vez. Preme unha etiqueta na lista para ver só esas receitas
+- 🗒️ **Notas** — trucos, variantes ou de onde saíu a receita, nun apartado propio ao final
 - 🔎 **Busca** — filtra a lista polo nome da receita ou polas súas etiquetas
-- 📄 **Exportar a PDF** — título e foto arriba, categoría e etiquetas, ingredientes, cada bloque de pasos. Usa o diálogo de impresión do navegador → *Gardar como PDF*, co nome da receita xa posto
+- 📄 **Exportar a PDF** — título e foto arriba, categoría e etiquetas, ingredientes, cada bloque de pasos e as notas. Usa o diálogo de impresión do navegador → *Gardar como PDF*, co nome da receita xa posto
 
 ## Configuración
 
@@ -75,6 +77,7 @@ metelo nun repositorio:
   <pasos nome="crema">
     <paso>Infusionar o leite</paso>
   </pasos>
+  <notas>Enrolar o biscoito aínda quente.</notas>
 </receita>
 ```
 
@@ -94,6 +97,9 @@ as-resetas-do-pardelo/
 ```
 
 ## Evolución por versión
+
+### v0.9.0
+- Apartado de **notas** na receita e no PDF.
 
 ### v0.8.0
 - **Etiquetas** libres con suxestións das que xa usaches e filtro por etiqueta.

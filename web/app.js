@@ -478,6 +478,7 @@ function exportarPDF() {
       <ul class="pdf-ingredientes">${ings.map((t) => `<li>${esc(t.trim())}</li>`).join("")}</ul>` : ""}
     ${bloques.map((b) => `<section class="pdf-bloque"><h2>Pasos${b.nome ? " " + esc(b.nome) : ""}</h2>
       <ol class="pdf-pasos">${b.pasos.map((t) => `<li>${esc(t)}</li>`).join("")}</ol></section>`).join("")}
+    ${actual.notas.trim() ? `<h2>Notas</h2><div class="pdf-notas">${esc(actual.notas.trim())}</div>` : ""}
     <div class="pdf-pe">As Resetas do Pardelo</div>`;
 
   const tituloVello = document.title;
