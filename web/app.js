@@ -7,7 +7,7 @@ const el = {
   ingredientes: $("#ingredientes"), bloques: $("#bloques"),
   estado: $("#estado"), aviso: $("#aviso"), pdf: $("#folla-pdf"),
   categorias: $("#categorias"), etiquetas: $("#etiquetas"), novaEtiqueta: $("#nova-etiqueta"),
-  todasEtiquetas: $("#todas-etiquetas"),
+  todasEtiquetas: $("#todas-etiquetas"), notas: $("#notas"),
   filtroCat: $("#filtro-cat"), filtroEti: $("#filtro-etiquetas"),
 };
 
@@ -22,7 +22,7 @@ let gardando = Promise.resolve();
 
 function baleira() {
   return {
-    id: "", titulo: "", foto: "", categoria: filtroCat, etiquetas: [],
+    id: "", titulo: "", foto: "", categoria: filtroCat, etiquetas: [], notas: "",
     ingredientes: [""], bloques: [{ nome: "", pasos: [""] }],
   };
 }
@@ -105,6 +105,7 @@ function cont(k) { return k === "ingredientes" ? el.ingredientes : document.quer
 function normalizar(r) {
   r.categoria = r.categoria || "";
   r.etiquetas = r.etiquetas || [];
+  r.notas = r.notas || "";
   if (!r.ingredientes || !r.ingredientes.length) r.ingredientes = [""];
   if (!r.bloques || !r.bloques.length) r.bloques = [{ nome: "", pasos: [""] }];
   r.bloques.forEach((b) => { b.nome = b.nome || ""; b.pasos = b.pasos || []; if (!b.pasos.length) b.pasos = [""]; });
@@ -138,11 +139,13 @@ function pintarEditor() {
   pintarFoto();
   pintarCategoria();
   pintarEtiquetas();
+  el.notas.value = actual.notas;
+  axustarAltura(el.notas);
   pintarLinhas("ingredientes");
   pintarBloques();
 }
 
-// ---------- Categoría e etiquetas ----------
+// ---------- Categoría, etiquetas e notas ----------
 function pintarCategoria() {
   el.categorias.querySelectorAll("button").forEach((b) => b.classList.toggle("activo", b.dataset.cat === actual.categoria));
 }
@@ -191,6 +194,12 @@ el.novaEtiqueta.addEventListener("input", (e) => {
   if (e.inputType === "insertReplacementText" || !e.inputType) engadirEtiqueta();
 });
 el.novaEtiqueta.addEventListener("blur", engadirEtiqueta);
+
+el.notas.addEventListener("input", () => {
+  actual.notas = el.notas.value;
+  axustarAltura(el.notas);
+  cambiou();
+});
 
 el.filtroCat.addEventListener("click", (e) => {
   const b = e.target.closest("button");
@@ -400,7 +409,7 @@ el.titulo.addEventListener("keydown", (e) => {
 });
 
 function tenContido() {
-  return actual.titulo.trim() || actual.foto || actual.etiquetas.length ||
+  return actual.titulo.trim() || actual.foto || actual.notas.trim() || actual.etiquetas.length ||
     actual.ingredientes.some((t) => t.trim()) ||
     actual.bloques.some((b) => b.nome.trim() || b.pasos.some((t) => t.trim()));
 }

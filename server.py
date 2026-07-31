@@ -47,6 +47,7 @@ def ler_receita(rid):
         "titulo": raiz.findtext("titulo", ""),
         "categoria": raiz.findtext("categoria", ""),
         "etiquetas": [e.text for e in raiz.iter("etiqueta") if e.text],
+        "notas": raiz.findtext("notas", ""),
         "foto": f"data:{foto.get('tipo', 'image/jpeg')};base64,{foto.text}" if foto is not None and foto.text else "",
         "ingredientes": [e.text or "" for e in raiz.iter("ingrediente")],
         # Cada <pasos nome="..."> é un bloque (Biscoito, Crema...)
@@ -109,6 +110,10 @@ def gardar_receita(datos):
         pasos = ET.SubElement(raiz, "pasos", nome=nome) if nome else ET.SubElement(raiz, "pasos")
         for p in lista:
             ET.SubElement(pasos, "paso").text = p
+
+    notas = (datos.get("notas") or "").strip()
+    if notas:
+        ET.SubElement(raiz, "notas").text = notas
 
     ET.indent(raiz, space="  ")
     ET.ElementTree(raiz).write(ruta(rid), encoding="utf-8", xml_declaration=True)
