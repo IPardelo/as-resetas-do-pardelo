@@ -80,6 +80,13 @@ textarea {
   box-shadow: 0 0 0 4px var(--acento-fondo);
 }
 
+/* Logotipo: o mesmo garfo e coitelo que a icona da app de Android */
+.selo .logo {
+  width: 100%;
+  height: 100%;
+  fill: #fff;
+}
+
 .buscar {
   width: 100%;
   padding: 9px 12px;
