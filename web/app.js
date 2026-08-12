@@ -47,6 +47,10 @@ async function cargarLista() {
   pintarLista();
 }
 
+function sinTiles(t) {
+  return (t || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+}
+
 function pintarLista() {
   const q = el.buscar.value.trim().toLowerCase();
 
@@ -64,10 +68,24 @@ function pintarLista() {
   el.todasEtiquetas.innerHTML = todas.map((e) => `<option value="${e.replace(/"/g, "&quot;")}">`).join("");
   el.filtroCat.querySelectorAll("button").forEach((b) => b.classList.toggle("activo", b.dataset.cat === filtroCat));
 
+  // Busca por nome, etiqueta ou ingrediente (sen importar tiles).
+  // Con varias palabras ("ovos fariña") teñen que estar todas.
+  const palabras = sinTiles(q).split(/\s+/).filter(Boolean);
+  const coincidencias = new Map();
   const visibles = receitas.filter((r) => {
     if (filtroCat && r.categoria !== filtroCat) return false;
     if (filtroEtiqueta && !(r.etiquetas || []).includes(filtroEtiqueta)) return false;
-    return r.titulo.toLowerCase().includes(q) || (r.etiquetas || []).some((e) => e.includes(q));
+    const titulo = sinTiles(r.titulo);
+    const etiquetas = (r.etiquetas || []).map(sinTiles);
+    const ings = r.ingredientes || [];
+    const atopados = new Set();
+    for (const p of palabras) {
+      const nosIngs = ings.filter((i) => sinTiles(i).includes(p));
+      nosIngs.forEach((i) => atopados.add(i));
+      if (!titulo.includes(p) && !etiquetas.some((e) => e.includes(p)) && !nosIngs.length) return false;
+    }
+    if (atopados.size) coincidencias.set(r.id, [...atopados]);
+    return true;
   });
   el.lista.innerHTML = "";
   for (const r of visibles) {
@@ -83,7 +101,12 @@ function pintarLista() {
     nome.textContent = r.titulo;
     textos.append(nome);
     const det = [CATEGORIAS[r.categoria], ...(r.etiquetas || []).map((e) => "#" + e)].filter(Boolean).join(" · ");
-    if (det) {
+    if (coincidencias.has(r.id)) {
+      const d = document.createElement("small");
+      d.className = "detalle ingrediente-atopado";
+      d.textContent = "✓ " + coincidencias.get(r.id).join(" · ");
+      textos.append(d);
+    } else if (det) {
       const d = document.createElement("small");
       d.className = "detalle";
       d.textContent = det;

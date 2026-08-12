@@ -919,3 +919,10 @@ kbd {
     height: 200px;
   }
 }
+
+.lista .ingrediente-atopado {
+  color: #5a8a4c;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

@@ -13,7 +13,7 @@ expórtaa a un PDF nun clic.
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-vanilla-F7DF1E?style=flat-square&logo=javascript&logoColor=black)
 ![XML](https://img.shields.io/badge/datos-XML-c2562f?style=flat-square)
-![Version](https://img.shields.io/badge/version-0.9.0-e9b44c?style=flat-square)
+![Version](https://img.shields.io/badge/version-0.10.0-e9b44c?style=flat-square)
 
 </div>
 
@@ -31,7 +31,7 @@ nos seus servidores e énchense de anuncios. 'As Resetas do Pardelo' é o contra
 - 🍽️ **Comidas e postres** — clasifica cada receita e filtra a lista cun clic
 - 🏷️ **Etiquetas libres** — *salsas*, *sen forno*, *chocolate*… con suxestións das que xa usaches para non ter "salsa" e "salsas" á vez. Preme unha etiqueta na lista para ver só esas receitas
 - 🗒️ **Notas** — trucos, variantes ou de onde saíu a receita, nun apartado propio ao final
-- 🔎 **Busca** — filtra a lista polo nome da receita ou polas súas etiquetas
+- 🔎 **Busca por ingredientes** — escribe "ovos" e saen todas as receitas que os levan, co ingrediente atopado debaixo do nome. Sen importar tiles ("farina" atopa "fariña"), e con varias palabras ("ovos fariña") teñen que estar todas
 - 📄 **Exportar a PDF** — título e foto arriba, categoría e etiquetas, ingredientes, cada bloque de pasos e as notas. Usa o diálogo de impresión do navegador → *Gardar como PDF*, co nome da receita xa posto
 
 ## Configuración
@@ -97,6 +97,9 @@ as-resetas-do-pardelo/
 ```
 
 ## Evolución por versión
+
+### v0.10.0
+- **Busca por ingredientes**, sen importar tiles e con varias palabras á vez; o ingrediente atopado amósase na lista.
 
 ### v0.9.0
 - Apartado de **notas** na receita e no PDF.
