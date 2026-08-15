@@ -1,6 +1,8 @@
 <div align="center">
 
-# As Resetas do Pardelo
+<img src="assets/banner.png" alt="As Resetas do Pardelo" width="720">
+
+<br>
 
 **As receitas da casa, gardadas por ti e listas para imprimir**
 
@@ -13,7 +15,7 @@ expórtaa a un PDF nun clic.
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-vanilla-F7DF1E?style=flat-square&logo=javascript&logoColor=black)
 ![XML](https://img.shields.io/badge/datos-XML-c2562f?style=flat-square)
-![Version](https://img.shields.io/badge/version-0.10.0-e9b44c?style=flat-square)
+![Version](https://img.shields.io/badge/version-1.0.0-e9b44c?style=flat-square)
 
 </div>
 
@@ -93,10 +95,16 @@ as-resetas-do-pardelo/
 │   └── style/
 │       └── css/style.css       # Estilos da app e @media print para o PDF
 │
-└── Receitas/                   # Unha receita por ficheiro .xml (os teus datos)
+├── Receitas/                   # Unha receita por ficheiro .xml (os teus datos)
+└── assets/                     # Banner do README
 ```
 
 ## Evolución por versión
+
+### v1.0.0
+- Primeira versión estable.
+- Logotipo propio (garfo e coitelo) e icona na pestana.
+- README co banner do proxecto.
 
 ### v0.10.0
 - **Busca por ingredientes**, sen importar tiles e con varias palabras á vez; o ingrediente atopado amósase na lista.
