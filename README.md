@@ -15,7 +15,7 @@ expórtaa a un PDF nun clic.
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-vanilla-F7DF1E?style=flat-square&logo=javascript&logoColor=black)
 ![XML](https://img.shields.io/badge/datos-XML-c2562f?style=flat-square)
-![Version](https://img.shields.io/badge/version-1.0.0-e9b44c?style=flat-square)
+![Version](https://img.shields.io/badge/version-1.1.0-e9b44c?style=flat-square)
 
 </div>
 
@@ -93,13 +93,18 @@ as-resetas-do-pardelo/
 │   ├── index.html              # Estrutura da app e da folla do PDF
 │   ├── app.js                  # Editor, gardado automático, filtros, busca e exportación
 │   └── style/
-│       └── css/style.css       # Estilos da app e @media print para o PDF
+│       ├── css/style.css       # Estilos da app e @media print para o PDF
+│       ├── css/font-awesome*   # Iconas (Font Awesome 4.7)
+│       └── fonts/              # Fontes de Font Awesome
 │
 ├── Receitas/                   # Unha receita por ficheiro .xml (os teus datos)
 └── assets/                     # Banner do README
 ```
 
 ## Evolución por versión
+
+### v1.1.0
+- Iconas de **Font Awesome**, incluídas no propio proxecto (funciona sen internet).
 
 ### v1.0.0
 - Primeira versión estable.
