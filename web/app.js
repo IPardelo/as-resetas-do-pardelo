@@ -23,8 +23,29 @@ let gardando = Promise.resolve();
 function baleira() {
   return {
     id: "", titulo: "", foto: "", categoria: filtroCat, etiquetas: [], notas: "",
-    ingredientes: [""], bloques: [{ nome: "", pasos: [""] }],
+    ingredientes: [ingBaleiro()], bloques: [{ nome: "", pasos: [""] }],
   };
+}
+
+function ingBaleiro() { return { nome: "", cantidade: "" }; }
+
+// Separa "130g de fariña" en { nome: "Fariña", cantidade: "130g" } (ao pegar listas)
+const PARTIR = new RegExp(
+  "^((?:\\d+(?:[.,/]\\d+)?(?:\\s*-\\s*\\d+)?|un|unha|medio|media)" +
+  "(?:\\s*(?:de\\s+)?(?:k?gr?s?|gramos?|kilos?|ml|cl|dl|l|litros?|cdta?s?|cda?s?|" +
+  "cucharad(?:a|ita|iña)s?|cuchar(?:a|ita|iña)s?|cullerad(?:a|iña)s?|culler(?:a|iña)s?|" +
+  "vasos?|cuncas?|tazas?|sobres?|tarros?|tarrinas?|botes?|latas?|paquetes?|bandexas?|" +
+  "láminas?|follas?|dentes?|cabezas?|chorr(?:o|iño)s?|pizcas?|pitadas?|puñados?|ramas?|" +
+  "rodajas?|rodas?|anacos?|unidades?)" +
+  "(?:\\s+(?:soperas?|rasas?|colmadas?|grandes?|pequen[oa]s?|mediano?s?))?(?![\\wñáéíóú]))?)" +
+  "\\.?\\s+(?:de\\s+|d\\s+)?(.+)$", "i");
+
+function partirIngrediente(t) {
+  t = (t || "").trim();
+  const m = t.match(PARTIR);
+  if (!m) return { nome: t, cantidade: "" };
+  const nome = m[2].trim();
+  return { nome: nome[0].toUpperCase() + nome.slice(1), cantidade: m[1].trim() };
 }
 
 // ---------- API ----------
@@ -77,7 +98,7 @@ function pintarLista() {
     if (filtroEtiqueta && !(r.etiquetas || []).includes(filtroEtiqueta)) return false;
     const titulo = sinTiles(r.titulo);
     const etiquetas = (r.etiquetas || []).map(sinTiles);
-    const ings = r.ingredientes || [];
+    const ings = (r.ingredientes || []).map((i) => i.nome || "");
     const atopados = new Set();
     for (const p of palabras) {
       const nosIngs = ings.filter((i) => sinTiles(i).includes(p));
@@ -129,7 +150,9 @@ function normalizar(r) {
   r.categoria = r.categoria || "";
   r.etiquetas = r.etiquetas || [];
   r.notas = r.notas || "";
-  if (!r.ingredientes || !r.ingredientes.length) r.ingredientes = [""];
+  r.ingredientes = (r.ingredientes || []).map((i) => typeof i === "string" ? partirIngrediente(i) : i);
+  r.ingredientes = r.ingredientes.map((i) => ({ nome: i.nome || "", cantidade: i.cantidade || "" }));
+  if (!r.ingredientes.length) r.ingredientes = [ingBaleiro()];
   if (!r.bloques || !r.bloques.length) r.bloques = [{ nome: "", pasos: [""] }];
   r.bloques.forEach((b) => { b.nome = b.nome || ""; b.pasos = b.pasos || []; if (!b.pasos.length) b.pasos = [""]; });
   return r;
@@ -297,6 +320,7 @@ function pintarLinhas(k) {
 }
 
 function crearLinha(k, i) {
+  if (k === "ingredientes") return crearIngrediente(i);
   const ePaso = k !== "ingredientes";
   const li = document.createElement("li");
   const campo = document.createElement(ePaso ? "textarea" : "input");
@@ -345,6 +369,56 @@ function crearLinha(k, i) {
   return li;
 }
 
+// Fila de ingrediente: [ Nome | Cantidade | × ]
+function crearIngrediente(i) {
+  const k = "ingredientes";
+  const li = document.createElement("li");
+  const campos = ["nome", "cantidade"].map((prop) => {
+    const c = document.createElement("input");
+    c.className = "ing-" + prop;
+    c.value = actual.ingredientes[i][prop];
+    c.placeholder = prop === "nome" ? "Ingrediente" : "Cantidade";
+    c.addEventListener("input", () => { actual.ingredientes[indice(li)][prop] = c.value; cambiou(); });
+    return c;
+  });
+  const [nome, cantidade] = campos;
+
+  nome.addEventListener("keydown", (e) => {
+    const n = indice(li);
+    if (e.key === "Enter") { e.preventDefault(); cantidade.focus(); cantidade.select(); }
+    else if (e.key === "Backspace" && !nome.value && !cantidade.value && actual.ingredientes.length > 1) {
+      e.preventDefault(); borrarLinha(k, n, true);
+    }
+  });
+  cantidade.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") { e.preventDefault(); engadirLinha(k, indice(li) + 1); }
+    else if (e.key === "Backspace" && !cantidade.value) { e.preventDefault(); nome.focus(); }
+  });
+
+  // Pegar unha lista ("130g de fariña" en cada liña) => unha fila por ingrediente
+  nome.addEventListener("paste", (e) => {
+    const texto = e.clipboardData.getData("text");
+    const partes = texto.split(/\r?\n/).map(limparPrefixo).filter((t) => t.trim()).map(partirIngrediente);
+    const baleira = !nome.value && !cantidade.value;
+    if (partes.length < 2 && !(baleira && partes[0]?.cantidade)) return;
+    e.preventDefault();
+    const n = indice(li);
+    actual.ingredientes.splice(n, baleira ? 1 : 0, ...partes);
+    pintarLinhas(k);
+    enfocar(k, n + partes.length - (baleira ? 1 : 0), true);
+    cambiou();
+  });
+
+  const borrar = document.createElement("button");
+  borrar.className = "borrar";
+  borrar.title = "Borrar";
+  borrar.textContent = "×";
+  borrar.onclick = () => borrarLinha(k, indice(li));
+
+  li.append(nome, cantidade, borrar);
+  return li;
+}
+
 function limparPrefixo(t) {
   return t.replace(/^\s*(?:[-*•·]|\d+[.)-]?)\s+/, "").trim();
 }
@@ -353,8 +427,10 @@ function indice(li) {
   return [...li.parentNode.children].indexOf(li);
 }
 
+function filaBaleira(k) { return k === "ingredientes" ? ingBaleiro() : ""; }
+
 function engadirLinha(k, pos = arr(k).length) {
-  arr(k).splice(pos, 0, "");
+  arr(k).splice(pos, 0, filaBaleira(k));
   pintarLinhas(k);
   enfocar(k, pos);
 }
@@ -362,7 +438,7 @@ function engadirLinha(k, pos = arr(k).length) {
 function borrarLinha(k, n, enfocarAnterior) {
   const a = arr(k);
   a.splice(n, 1);
-  if (!a.length) a.push("");
+  if (!a.length) a.push(filaBaleira(k));
   pintarLinhas(k);
   if (enfocarAnterior) enfocar(k, Math.max(0, n - 1), true);
   cambiou();
@@ -433,7 +509,7 @@ el.titulo.addEventListener("keydown", (e) => {
 
 function tenContido() {
   return actual.titulo.trim() || actual.foto || actual.notas.trim() || actual.etiquetas.length ||
-    actual.ingredientes.some((t) => t.trim()) ||
+    actual.ingredientes.some((i) => i.nome.trim() || i.cantidade.trim()) ||
     actual.bloques.some((b) => b.nome.trim() || b.pasos.some((t) => t.trim()));
 }
 
@@ -481,7 +557,7 @@ function avisar(texto) {
 function exportarPDF() {
   if (!tenContido()) return avisar("A receita está baleira");
   const esc = (t) => t.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
-  const ings = actual.ingredientes.filter((t) => t.trim());
+  const ings = actual.ingredientes.filter((i) => i.nome.trim() || i.cantidade.trim());
   const meta = [
     ...(actual.categoria ? [`<span class="cat">${CATEGORIAS[actual.categoria]}</span>`] : []),
     ...actual.etiquetas.map((t) => `<span>#${esc(t)}</span>`),
@@ -498,7 +574,8 @@ function exportarPDF() {
       ${actual.foto ? `<img class="pdf-foto" src="${actual.foto}" alt="">` : ""}
     </header>
     ${ings.length ? `<h2>Ingredientes</h2>
-      <ul class="pdf-ingredientes">${ings.map((t) => `<li>${esc(t.trim())}</li>`).join("")}</ul>` : ""}
+      <ul class="pdf-ingredientes">${ings.map((i) =>
+        `<li><span>${esc(i.nome.trim())}</span><span class="cant">${esc(i.cantidade.trim())}</span></li>`).join("")}</ul>` : ""}
     ${bloques.map((b) => `<section class="pdf-bloque"><h2>Pasos${b.nome ? " " + esc(b.nome) : ""}</h2>
       <ol class="pdf-pasos">${b.pasos.map((t) => `<li>${esc(t)}</li>`).join("")}</ol></section>`).join("")}
     ${actual.notas.trim() ? `<h2>Notas</h2><div class="pdf-notas">${esc(actual.notas.trim())}</div>` : ""}

@@ -39,6 +39,36 @@ def ruta(rid):
     return os.path.join(RECEITAS, rid + ".xml")
 
 
+# Separa "130g de fariña" en ("Fariña", "130g") para as receitas antigas,
+# onde o ingrediente era un só texto.
+_NUM = r"(?:\d+(?:[.,/]\d+)?(?:\s*-\s*\d+)?|un|unha|medio|media)"
+_UNIDADE = (
+    r"(?:k?gr?s?|gramos?|kilos?|ml|cl|dl|l|litros?|cdta?s?|cda?s?|"
+    r"cucharad(?:a|ita|iña)s?|cuchar(?:a|ita|iña)s?|cullerad(?:a|iña)s?|culler(?:a|iña)s?|"
+    r"vasos?|cuncas?|tazas?|sobres?|tarros?|tarrinas?|botes?|latas?|paquetes?|bandexas?|"
+    r"láminas?|follas?|dentes?|cabezas?|chorr(?:o|iño)s?|pizcas?|pitadas?|puñados?|ramas?|"
+    r"rodajas?|rodas?|anacos?|unidades?)"
+    r"(?:\s+(?:soperas?|rasas?|colmadas?|grandes?|pequen[oa]s?|mediano?s?))?"
+)
+_PARTIR = re.compile(rf"^({_NUM}(?:\s*(?:de\s+)?{_UNIDADE}\b)?)\.?\s+(?:de\s+|d\s+)?(.+)$", re.I)
+
+
+def partir_ingrediente(texto):
+    texto = (texto or "").strip()
+    m = _PARTIR.match(texto)
+    if not m:
+        return texto, ""
+    cantidade, nome = m.group(1).strip(), m.group(2).strip()
+    return nome[:1].upper() + nome[1:], cantidade
+
+
+def ler_ingrediente(e):
+    if "cantidade" in e.attrib:  # formato novo
+        return {"nome": e.text or "", "cantidade": e.get("cantidade", "")}
+    nome, cantidade = partir_ingrediente(e.text)
+    return {"nome": nome, "cantidade": cantidade}
+
+
 def ler_receita(rid):
     raiz = ET.parse(ruta(rid)).getroot()
     foto = raiz.find("foto")
@@ -49,7 +79,7 @@ def ler_receita(rid):
         "etiquetas": [e.text for e in raiz.iter("etiqueta") if e.text],
         "notas": raiz.findtext("notas", ""),
         "foto": f"data:{foto.get('tipo', 'image/jpeg')};base64,{foto.text}" if foto is not None and foto.text else "",
-        "ingredientes": [e.text or "" for e in raiz.iter("ingrediente")],
+        "ingredientes": [ler_ingrediente(e) for e in raiz.iter("ingrediente")],
         # Cada <pasos nome="..."> é un bloque (Biscoito, Crema...)
         "bloques": [
             {"nome": b.get("nome", ""), "pasos": [e.text or "" for e in b.iter("paso")]}
@@ -99,8 +129,13 @@ def gardar_receita(datos):
 
     ings = ET.SubElement(raiz, "ingredientes")
     for i in datos.get("ingredientes", []):
-        if i.strip():
-            ET.SubElement(ings, "ingrediente").text = i.strip()
+        if isinstance(i, str):
+            nome, cantidade = partir_ingrediente(i)
+        else:
+            nome = (i.get("nome") or "").strip()
+            cantidade = (i.get("cantidade") or "").strip()
+        if nome or cantidade:
+            ET.SubElement(ings, "ingrediente", cantidade=cantidade).text = nome
 
     for bloque in datos.get("bloques", []):
         nome = (bloque.get("nome") or "").strip()
