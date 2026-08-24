@@ -367,23 +367,54 @@ h2::after {
   padding: 0;
 }
 
+/* Táboa de dúas celdas: ingrediente | cantidade */
+.ingredientes {
+  border-top: 1px solid var(--liña);
+}
+
 .ingredientes li {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr minmax(120px, 28%) 34px;
   align-items: center;
-  gap: 12px;
-  padding: 3px 0;
+  border-bottom: 1px solid var(--liña);
+  transition: background .15s;
 }
 
-.ingredientes li::before {
-  content: "";
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  flex: none;
-  background: var(--acento-2);
+.ingredientes li:hover,
+.ingredientes li:focus-within {
+  background: #fdf8f1;
 }
 
-.ingredientes input,
+.ingredientes input {
+  width: 100%;
+  min-width: 0;
+  border: none;
+  outline: none;
+  background: none;
+  padding: 8px 14px;
+  border-radius: 0;
+}
+
+.ingredientes .ing-cantidade {
+  border-left: 1px solid var(--liña);
+  color: var(--acento);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.ingredientes input::placeholder {
+  color: #cbbfb2;
+  font-weight: 400;
+}
+
+.ingredientes input:focus {
+  background: #faf3e9;
+}
+
+.ingredientes .borrar {
+  justify-self: center;
+}
+
 .pasos textarea {
   flex: 1;
   border: none;
@@ -393,7 +424,6 @@ h2::after {
   border-radius: 8px;
 }
 
-.ingredientes input:focus,
 .pasos textarea:focus {
   background: #faf3e9;
 }
@@ -821,13 +851,28 @@ kbd {
   }
 
   .pdf-ingredientes {
+    list-style: none;
     margin: 0;
-    padding-left: 5mm;
+    padding: 0;
+    border-top: .2mm solid var(--liña);
   }
 
   .pdf-ingredientes li {
-    padding: .6mm 0;
+    display: grid;
+    grid-template-columns: 1fr 34%;
+    border-bottom: .2mm solid var(--liña);
     break-inside: avoid;
+  }
+
+  .pdf-ingredientes span {
+    padding: 1.6mm 3mm;
+  }
+
+  .pdf-ingredientes .cant {
+    border-left: .2mm solid var(--liña);
+    color: var(--acento);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
   }
 
   .pdf-pasos {
