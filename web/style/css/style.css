@@ -857,6 +857,11 @@ kbd {
     border-top: .2mm solid var(--liña);
   }
 
+  .pdf-ingredientes.dobre {
+    columns: 2;
+    column-gap: 10mm;
+  }
+
   .pdf-ingredientes li {
     display: grid;
     grid-template-columns: 1fr 34%;

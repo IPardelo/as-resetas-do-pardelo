@@ -574,7 +574,7 @@ function exportarPDF() {
       ${actual.foto ? `<img class="pdf-foto" src="${actual.foto}" alt="">` : ""}
     </header>
     ${ings.length ? `<h2>Ingredientes</h2>
-      <ul class="pdf-ingredientes">${ings.map((i) =>
+      <ul class="pdf-ingredientes ${ings.length > 10 ? "dobre" : ""}">${ings.map((i) =>
         `<li><span>${esc(i.nome.trim())}</span><span class="cant">${esc(i.cantidade.trim())}</span></li>`).join("")}</ul>` : ""}
     ${bloques.map((b) => `<section class="pdf-bloque"><h2>Pasos${b.nome ? " " + esc(b.nome) : ""}</h2>
       <ol class="pdf-pasos">${b.pasos.map((t) => `<li>${esc(t)}</li>`).join("")}</ol></section>`).join("")}

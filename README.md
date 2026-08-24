@@ -15,7 +15,7 @@ expórtaa a un PDF nun clic.
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-vanilla-F7DF1E?style=flat-square&logo=javascript&logoColor=black)
 ![XML](https://img.shields.io/badge/datos-XML-c2562f?style=flat-square)
-![Version](https://img.shields.io/badge/version-1.1.0-e9b44c?style=flat-square)
+![Version](https://img.shields.io/badge/version-1.2.0-e9b44c?style=flat-square)
 
 </div>
 
@@ -28,13 +28,13 @@ nos seus servidores e énchense de anuncios. 'As Resetas do Pardelo' é o contra
 
 ## Funcionalidades
 
-- 🥣 **Crear receitas** — título, foto, ingredientes, pasos e notas nunha soa folla.
+- 🥣 **Crear receitas** — título, foto, ingredientes (nome e cantidade), pasos e notas nunha soa folla.
 - 💾 **Gardado automático** — cada cambio gárdase ao momento en `Receitas/nome-da-receita.xml`. Se cambias o título, o ficheiro renoméase só. Sen botón de gardar (aínda que <kbd>Ctrl</kbd>+<kbd>S</kbd> tamén funciona)
 - 🍽️ **Comidas e postres** — clasifica cada receita e filtra a lista cun clic
 - 🏷️ **Etiquetas libres** — *salsas*, *sen forno*, *chocolate*… con suxestións das que xa usaches para non ter "salsa" e "salsas" á vez. Preme unha etiqueta na lista para ver só esas receitas
 - 🗒️ **Notas** — trucos, variantes ou de onde saíu a receita, nun apartado propio ao final
 - 🔎 **Busca por ingredientes** — escribe "ovos" e saen todas as receitas que os levan, co ingrediente atopado debaixo do nome. Sen importar tiles ("farina" atopa "fariña"), e con varias palabras ("ovos fariña") teñen que estar todas
-- 📄 **Exportar a PDF** — título e foto arriba, categoría e etiquetas, ingredientes, cada bloque de pasos e as notas. Usa o diálogo de impresión do navegador → *Gardar como PDF*, co nome da receita xa posto
+- 📄 **Exportar a PDF** — título e foto arriba, categoría e etiquetas, ingredientes (en táboa, a dúas columnas se son moitos), cada bloque de pasos e as notas. Usa o diálogo de impresión do navegador → *Gardar como PDF*, co nome da receita xa posto
 
 ## Configuración
 
@@ -70,8 +70,8 @@ metelo nun repositorio:
   </etiquetas>
   <foto tipo="image/jpeg">/9j/4AAQSkZJRg…</foto>
   <ingredientes>
-    <ingrediente>6/7 ovos</ingrediente>
-    <ingrediente>6 cucharadas de azucre</ingrediente>
+    <ingrediente cantidade="6/7">Ovos</ingrediente>
+    <ingrediente cantidade="6 cucharadas">Azucre</ingrediente>
   </ingredientes>
   <pasos nome="biscoito">
     <paso>Batir as xemas co azucre</paso>
@@ -102,6 +102,12 @@ as-resetas-do-pardelo/
 ```
 
 ## Evolución por versión
+
+### v1.2.0
+- **Ingredientes en táboa**: o nome nunha celda e a cantidade noutra, no editor e no PDF.
+- As receitas antigas sepáranse soas ("130g de fariña" → *Fariña* · *130g*).
+- <kbd>Intro</kbd> no nome salta á cantidade, e ao pegar unha lista tamén se separan as cantidades.
+- No PDF, os ingredientes van a dúas columnas cando son moitos.
 
 ### v1.1.0
 - Iconas de **Font Awesome**, incluídas no propio proxecto (funciona sen internet).
