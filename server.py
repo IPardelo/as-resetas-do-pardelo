@@ -3,13 +3,15 @@ As Resetas do Pardelo
 Servidor local moi sinxelo (só biblioteca estándar de Python).
 Garda cada receita como un ficheiro XML na carpeta "Receitas".
 
-Uso:
-    python server.py
-e a app ábrese no navegador.
+Normalmente non se abre directamente: "As Resetas do Pardelo.pyw" arráncao
+e amosa a app na súa propia xanela. Para probar no navegador:
+    python server.py --navegador
 """
 import json
 import os
 import re
+import sys
+import threading
 import unicodedata
 import webbrowser
 import xml.etree.ElementTree as ET
@@ -223,12 +225,37 @@ class Manexador(SimpleHTTPRequestHandler):
             return self.json({"erro": "Non atopada"}, 404)
 
 
-if __name__ == "__main__":
-    servidor = ThreadingHTTPServer(("127.0.0.1", PORTO), Manexador)
+def arrancar():
+    """Arranca o servidor nun fío e devolve o enderezo. Se xa estaba aberto, reutilízao."""
     url = f"http://127.0.0.1:{PORTO}"
-    print(f"\n  As Resetas do Pardelo  ->  {url}\n  (Ctrl+C para saír)\n")
-    webbrowser.open(url)
     try:
-        servidor.serve_forever()
-    except KeyboardInterrupt:
-        pass
+        servidor = ThreadingHTTPServer(("127.0.0.1", PORTO), Manexador)
+    except OSError:
+        return url  # xa hai outra xanela aberta: usamos o mesmo servidor
+    threading.Thread(target=servidor.serve_forever, daemon=True).start()
+    return url
+
+
+def xanela():
+    """Abre a app na súa propia xanela (pywebview)."""
+    import webview  # pip install pywebview
+
+    url = arrancar()
+    webview.create_window(
+        "As Resetas do Pardelo", url,
+        width=1280, height=860, min_size=(760, 560), background_color="#f6efe4",
+    )
+    webview.start(private_mode=False)
+
+
+if __name__ == "__main__":
+    if "--navegador" in sys.argv:
+        url = arrancar()
+        print(f"\n  As Resetas do Pardelo  ->  {url}\n  (Ctrl+C para saír)\n")
+        webbrowser.open(url)
+        try:
+            threading.Event().wait()
+        except KeyboardInterrupt:
+            pass
+    else:
+        xanela()
