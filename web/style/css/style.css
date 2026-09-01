@@ -193,6 +193,17 @@ textarea {
   color: #b3261e;
 }
 
+.btn.perigo {
+  background: #b3261e;
+  border-color: #b3261e;
+  color: #fff;
+}
+
+.btn.perigo:hover {
+  background: #941f18;
+  color: #fff;
+}
+
 .btn.ancho {
   width: 100%;
   padding: 11px;
@@ -982,4 +993,61 @@ kbd {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+/* ---------- Xanela de confirmación ---------- */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(45, 36, 32, .35);
+  opacity: 0;
+  transition: opacity .15s;
+}
+
+.modal.visible {
+  opacity: 1;
+}
+
+.modal[hidden] {
+  display: none;
+}
+
+.modal-caixa {
+  width: min(380px, 100%);
+  padding: 26px 26px 20px;
+  background: var(--papel);
+  border-radius: 18px;
+  box-shadow: 0 20px 60px rgba(60, 40, 20, .25);
+  transform: translateY(8px) scale(.98);
+  transition: transform .15s;
+}
+
+.modal.visible .modal-caixa {
+  transform: none;
+}
+
+.modal-caixa h3 {
+  margin: 0 0 8px;
+  font: 700 21px/1.2 var(--serif);
+}
+
+.modal-caixa p {
+  margin: 0 0 22px;
+  color: var(--suave);
+}
+
+.modal-botons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+@media print {
+  .modal {
+    display: none !important;
+  }
 }

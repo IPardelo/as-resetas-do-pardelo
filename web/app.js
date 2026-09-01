@@ -281,9 +281,9 @@ function pintarBloques() {
       const quitar = document.createElement("button");
       quitar.className = "borrar-bloque";
       quitar.textContent = "Quitar bloque";
-      quitar.onclick = () => {
+      quitar.onclick = async () => {
         const ten = b.pasos.some((p) => p.trim());
-        if (ten && !confirm(`Quitar o bloque "${b.nome || "Pasos"}" cos seus pasos?`)) return;
+        if (ten && !(await confirmar({ titulo: "Quitar bloque", texto: `Quitar o bloque "${b.nome || "Pasos"}" cos seus pasos?`, si: "Quitar" }))) return;
         actual.bloques.splice(i, 1);
         pintarBloques();
         cambiou();
@@ -591,6 +591,32 @@ function exportarPDF() {
   if (img && !img.complete) img.onload = imprimir; else imprimir();
 }
 
+// ---------- Xanela de confirmación ----------
+// confirmar({ titulo, texto, si }) -> Promise<boolean>
+const modal = $("#modal");
+let pecharModal = null;
+
+function confirmar({ titulo, texto, si = "Aceptar" }) {
+  $("#modal-titulo").textContent = titulo;
+  $("#modal-texto").textContent = texto;
+  $("#modal-si").textContent = si;
+  modal.hidden = false;
+  requestAnimationFrame(() => modal.classList.add("visible"));
+  $("#modal-non").focus();
+  return new Promise((resolver) => {
+    pecharModal = (resposta) => {
+      modal.classList.remove("visible");
+      setTimeout(() => (modal.hidden = true), 150);
+      pecharModal = null;
+      resolver(resposta);
+    };
+  });
+}
+$("#modal-si").onclick = () => pecharModal?.(true);
+$("#modal-non").onclick = () => pecharModal?.(false);
+modal.addEventListener("click", (e) => { if (e.target === modal) pecharModal?.(false); });
+document.addEventListener("keydown", (e) => { if (e.key === "Escape" && pecharModal) pecharModal(false); });
+
 // ---------- Botóns ----------
 $("#nova").onclick = nova;
 $("#engadir-ingrediente").onclick = () => engadirLinha("ingredientes");
@@ -598,7 +624,12 @@ $("#engadir-bloque").onclick = engadirBloque;
 $("#exportar").onclick = exportarPDF;
 $("#eliminar").onclick = async () => {
   if (!actual.id) { actual = baleira(); pintarEditor(); return; }
-  if (!confirm(`Seguro que queres eliminar "${actual.titulo || "Receita sen título"}"?`)) return;
+  const si = await confirmar({
+    titulo: "Eliminar receita",
+    texto: `Seguro que queres eliminar "${actual.titulo || "Receita sen título"}"? Non se pode desfacer.`,
+    si: "Eliminar",
+  });
+  if (!si) return;
   clearTimeout(temporizador); temporizador = null;
   try {
     await api.borrar(actual.id);
