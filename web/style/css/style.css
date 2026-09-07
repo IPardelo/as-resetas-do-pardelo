@@ -193,6 +193,36 @@ textarea {
   color: #b3261e;
 }
 
+/* Botóns só con icona (editar, eliminar): discretos */
+.btn-icona {
+  width: 40px;
+  height: 40px;
+  display: inline-grid;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  color: var(--suave);
+  font-size: 18px;
+  cursor: pointer;
+  transition: background .15s, color .15s;
+}
+
+.btn-icona:hover {
+  background: #f3e9dc;
+  color: var(--tinta);
+}
+
+.btn-icona.perigo:hover {
+  background: #f9e3e0;
+  color: #b3261e;
+}
+
+.btn-icona.activo {
+  background: var(--acento-fondo);
+  color: var(--acento);
+}
+
 .btn.perigo {
   background: #b3261e;
   border-color: #b3261e;
