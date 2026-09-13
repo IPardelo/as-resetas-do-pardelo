@@ -49,7 +49,8 @@ function partirIngrediente(t) {
 }
 
 // ---------- API ----------
-const api = {
+// Escritorio: server.py (XML na carpeta Receitas). Móbil: Firebase (js/nube.js).
+const api = MOBIL ? nube : {
   listar: () => fetch("/api/receitas").then((r) => r.json()),
   ler: (id) => fetch("/api/receitas/" + encodeURIComponent(id)).then((r) => r.json()),
   gardar: (d) => fetch("/api/receitas", {
@@ -63,7 +64,7 @@ async function cargarLista() {
   try {
     receitas = await api.listar();
   } catch (err) {
-    avisar("Erro ao cargar as receitas");
+    avisar(MOBIL ? "Sen conexión coa nube" : "Erro ao cargar as receitas");
   }
   pintarLista();
 }
@@ -476,11 +477,12 @@ el.foto.addEventListener("drop", (e) => {
   if (f && f.type.startsWith("image/")) cargarFoto(f);
 });
 
-// Reduce a foto para que o XML non pese demasiado
+// Reduce a foto para que o XML non pese demasiado e caiba en Firebase
+// (non admite documentos de máis de 1 MB).
 function cargarFoto(ficheiro) {
   const img = new Image();
   img.onload = () => {
-    const max = 1200;
+    const max = MOBIL ? 1000 : 1200;
     const esc = Math.min(1, max / Math.max(img.width, img.height));
     const c = document.createElement("canvas");
     c.width = Math.round(img.width * esc);
@@ -489,7 +491,7 @@ function cargarFoto(ficheiro) {
     ctx.fillStyle = "#fff";
     ctx.fillRect(0, 0, c.width, c.height);
     ctx.drawImage(img, 0, 0, c.width, c.height);
-    actual.foto = c.toDataURL("image/jpeg", 0.82);
+    actual.foto = c.toDataURL("image/jpeg", MOBIL ? 0.8 : 0.82);
     URL.revokeObjectURL(img.src);
     pintarFoto();
     cambiou();
@@ -531,8 +533,13 @@ function gardarAgora() {
       const r = await api.gardar(copia);
       if (r.erro) throw new Error(r.erro);
       if (actual.id === copia.id) actual.id = r.id;
-      estado("ok", "Gardado en Receitas/" + r.id + ".xml");
-      await cargarLista();
+      estado("ok", MOBIL ? "Gardado na nube" : "Gardado en Receitas/" + r.id + ".xml");
+      if (MOBIL) {
+        // Sen volver descargar toda a lista da nube
+        receitas = receitas.filter((x) => x.id !== r.id).concat(r)
+          .sort((x, y) => x.titulo.localeCompare(y.titulo, "gl"));
+        pintarLista();
+      } else await cargarLista();
     } catch (err) {
       estado("pendente", "Non se puido gardar");
       avisar("Erro ao gardar: " + err.message);

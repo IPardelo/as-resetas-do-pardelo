@@ -1,0 +1,18 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /receitas/{id} {
+      allow read, delete: if true;
+      allow create, update: if request.resource.data.keys().hasOnly(
+          ['titulo', 'categoria', 'etiquetas', 'foto', 'ingredientes', 'bloques', 'notas', 'creada', 'modificada', 'borrada'])
+        && request.resource.data.titulo is string
+        && request.resource.data.titulo.size() <= 200
+        && request.resource.data.foto is string
+        && request.resource.data.ingredientes is list
+        && request.resource.data.bloques is list;
+    }
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
