@@ -591,7 +591,9 @@ function exportarPDF() {
   const tituloVello = document.title;
   document.title = actual.titulo || "Receita"; // nome suxerido para o PDF
   const imprimir = () => {
-    window.print();
+    // En Android window.print() non fai nada: a app ofrece a súa propia ponte
+    if (window.Android?.imprimir) window.Android.imprimir(document.title);
+    else window.print();
     document.title = tituloVello;
   };
   const img = el.pdf.querySelector("img");

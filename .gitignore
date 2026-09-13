@@ -2,3 +2,15 @@ __pycache__/
 .idea/
 
 web/config/firebase.json
+
+# Android Studio
+android/.gradle/
+android/.idea/
+android/.kotlin/
+android/local.properties
+android/build/
+android/app/build/
+android/captures/
+*.iml
+*.apk
+*.aab

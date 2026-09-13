@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Garfo e coitelo brancos (mesmo selo que a app de escritorio) -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Garfo -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M40,34h2.4v13h1.8v-13h2.4v13h1.8v-13h2.4v15c0,2.8 -1.9,4.6 -4,5.2v19.3c0,1 -0.8,1.5 -1.7,1.5s-1.7,-0.5 -1.7,-1.5v-19.3c-2.1,-0.6 -3.4,-2.4 -3.4,-5.2z" />
+    <!-- Coitelo -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M64.5,34c3.6,1.8 5.5,7 5.5,13.5v7.5h-3v18.5c0,1 -0.8,1.5 -1.75,1.5s-1.75,-0.5 -1.75,-1.5z" />
+</vector>
