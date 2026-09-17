@@ -1025,6 +1025,151 @@ kbd {
   text-overflow: ellipsis;
 }
 
+/* ---------- App de Android ---------- */
+.barra-mobil {
+  display: none;
+}
+
+body.mobil .axuda,
+body.mobil .lateral .marca,
+body.mobil #nova {
+  display: none;
+}
+
+body.mobil .barra-mobil {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+  padding: 0 10px 0 16px;
+  background: #fbf6ee;
+  border-bottom: 1px solid var(--liña);
+}
+
+body.mobil .barra-mobil .marca {
+  padding: 0;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body.mobil .barra-mobil .selo {
+  width: 36px;
+  height: 36px;
+  font-size: 17px;
+  box-shadow: 0 0 0 3px var(--acento-fondo);
+}
+
+body.mobil .barra-mobil .marca strong {
+  font-size: 18px;
+}
+
+.boton-menu {
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 12px;
+  background: none;
+  color: var(--tinta);
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.boton-menu:active,
+.boton-menu[aria-expanded="true"] {
+  background: var(--acento-fondo);
+  color: var(--acento);
+}
+
+.menu-mobil {
+  position: absolute;
+  top: 58px;
+  right: 10px;
+  min-width: 210px;
+  padding: 6px;
+  background: var(--papel);
+  border: 1px solid var(--liña);
+  border-radius: 14px;
+  box-shadow: 0 12px 32px rgba(60, 40, 20, .16);
+  opacity: 0;
+  transform: translateY(-6px);
+  pointer-events: none;
+  transition: opacity .15s, transform .15s;
+}
+
+.menu-mobil.aberto {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+.menu-mobil button {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 12px 14px;
+  border: 0;
+  border-radius: 10px;
+  background: none;
+  text-align: left;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.menu-mobil button .fa {
+  width: 16px;
+  color: var(--acento);
+}
+
+.menu-mobil button:active {
+  background: var(--acento-fondo);
+}
+
+/* Dúas pantallas: a lista ou a receita, nunca as dúas á vez */
+body.mobil .app {
+  display: block;
+  height: auto;
+}
+
+body.mobil .lateral {
+  max-height: none;
+  min-height: calc(100vh - 64px);
+  border-right: 0;
+  padding: 16px;
+  overflow: visible;
+}
+
+body.mobil .lista {
+  overflow: visible;
+}
+
+body.mobil .lista li {
+  padding: 10px;
+}
+
+body.mobil .miniatura {
+  width: 52px;
+  height: 52px;
+}
+
+body.mobil .principal {
+  overflow: visible;
+  padding: 14px 12px 40px;
+}
+
+body.mobil .folla-editor {
+  padding: 24px 18px;
+  border-radius: 16px;
+}
+
+body.mobil.vista-lista .principal,
+body.mobil.vista-receita .lateral {
+  display: none;
+}
+
 /* ---------- Xanela de confirmación ---------- */
 .modal {
   position: fixed;

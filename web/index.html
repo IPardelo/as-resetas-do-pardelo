@@ -13,6 +13,22 @@
 
 <body>
 
+  <!-- Só na app de Android: barra superior con menú -->
+  <header class="barra-mobil">
+    <div class="marca" id="marca-mobil" role="button" title="Lista de receitas">
+      <span class="selo"><svg class="logo" viewBox="18 18 72 72" aria-hidden="true"><path d="M40,34h2.4v13h1.8v-13h2.4v13h1.8v-13h2.4v15c0,2.8 -1.9,4.6 -4,5.2v19.3c0,1 -0.8,1.5 -1.7,1.5s-1.7,-0.5 -1.7,-1.5v-19.3c-2.1,-0.6 -3.4,-2.4 -3.4,-5.2z"/><path d="M64.5,34c3.6,1.8 5.5,7 5.5,13.5v7.5h-3v18.5c0,1 -0.8,1.5 -1.75,1.5s-1.75,-0.5 -1.75,-1.5z"/></svg></span>
+      <div>
+        <strong>As Resetas</strong>
+        <small>do Pardelo</small>
+      </div>
+    </div>
+    <button class="boton-menu" id="boton-menu" aria-label="Menú" aria-expanded="false"><i class="fa fa-bars" aria-hidden="true"></i></button>
+    <nav class="menu-mobil" id="menu-mobil">
+      <button data-vista="nova"><i class="fa fa-plus" aria-hidden="true"></i> Nova receita</button>
+      <button data-vista="lista"><i class="fa fa-list-ul" aria-hidden="true"></i> Lista de receitas</button>
+    </nav>
+  </header>
+
   <div class="app">
     <!-- Barra lateral -->
     <aside class="lateral">

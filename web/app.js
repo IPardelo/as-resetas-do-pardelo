@@ -169,6 +169,7 @@ async function abrir(id) {
   pintarEditor();
   pintarLista();
   estado("ok", "Gardado");
+  vista("receita");
 }
 
 async function nova() {
@@ -177,6 +178,7 @@ async function nova() {
   pintarEditor();
   pintarLista();
   estado("", "");
+  vista("receita");
   el.titulo.focus();
 }
 
@@ -632,7 +634,7 @@ $("#engadir-ingrediente").onclick = () => engadirLinha("ingredientes");
 $("#engadir-bloque").onclick = engadirBloque;
 $("#exportar").onclick = exportarPDF;
 $("#eliminar").onclick = async () => {
-  if (!actual.id) { actual = baleira(); pintarEditor(); return; }
+  if (!actual.id) { actual = baleira(); pintarEditor(); vista("lista"); return; }
   const si = await confirmar({
     titulo: "Eliminar receita",
     texto: `Seguro que queres eliminar "${actual.titulo || "Receita sen título"}"? Non se pode desfacer.`,
@@ -650,6 +652,7 @@ $("#eliminar").onclick = async () => {
   pintarEditor();
   estado("", "");
   cargarLista();
+  vista("lista");
 };
 el.buscar.addEventListener("input", pintarLista);
 
@@ -664,6 +667,50 @@ document.addEventListener("keydown", (e) => {
 });
 window.addEventListener("beforeunload", () => { if (temporizador) gardarAgora(); });
 
+// ---------- Móbil: dúas pantallas (lista / receita) e menú ----------
+const menu = $("#menu-mobil");
+const botonMenu = $("#boton-menu");
+
+function vista(v) {
+  if (!MOBIL) return;
+  document.body.classList.toggle("vista-lista", v === "lista");
+  document.body.classList.toggle("vista-receita", v === "receita");
+  pecharMenu();
+  window.scrollTo(0, 0);
+  document.querySelector(".principal").scrollTop = 0;
+  // Os textarea calcúlanse mal mentres están ocultos: volver axustalos ao amosalos
+  if (v === "receita") document.querySelectorAll(".folla-editor textarea").forEach(axustarAltura);
+}
+
+function pecharMenu() {
+  menu.classList.remove("aberto");
+  botonMenu.setAttribute("aria-expanded", "false");
+}
+
+botonMenu.onclick = (e) => {
+  e.stopPropagation();
+  const aberto = menu.classList.toggle("aberto");
+  botonMenu.setAttribute("aria-expanded", aberto);
+};
+menu.addEventListener("click", async (e) => {
+  const b = e.target.closest("button");
+  if (!b) return;
+  if (b.dataset.vista === "nova") nova();
+  else { await gardarAgora(); vista("lista"); }
+});
+document.addEventListener("click", (e) => { if (!e.target.closest(".menu-mobil")) pecharMenu(); });
+// O logotipo da barra superior volve á lista
+$("#marca-mobil").onclick = async () => { await gardarAgora(); vista("lista"); };
+
+// Botón "atrás" de Android: pecha o menú ou volve á lista (true = xa se encargou a web)
+window.atras = () => {
+  if (pecharModal) { pecharModal(false); return true; }
+  if (menu.classList.contains("aberto")) { pecharMenu(); return true; }
+  if (document.body.classList.contains("vista-receita")) { gardarAgora(); vista("lista"); return true; }
+  return false;
+};
+
 // ---------- Inicio ----------
+if (MOBIL) { document.body.classList.add("mobil"); vista("lista"); }
 pintarEditor();
 cargarLista();
