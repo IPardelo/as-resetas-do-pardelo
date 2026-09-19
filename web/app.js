@@ -166,6 +166,7 @@ async function abrir(id) {
   } catch (err) {
     return avisar("Non se puido abrir: " + err.message);
   }
+  editando = !MOBIL;
   pintarEditor();
   pintarLista();
   estado("ok", "Gardado");
@@ -175,6 +176,7 @@ async function abrir(id) {
 async function nova() {
   await gardarAgora();
   actual = baleira();
+  editando = true;
   pintarEditor();
   pintarLista();
   estado("", "");
@@ -192,6 +194,7 @@ function pintarEditor() {
   axustarAltura(el.notas);
   pintarLinhas("ingredientes");
   pintarBloques();
+  aplicarModo();
 }
 
 // ---------- Categoría, etiquetas e notas ----------
@@ -628,11 +631,46 @@ $("#modal-non").onclick = () => pecharModal?.(false);
 modal.addEventListener("click", (e) => { if (e.target === modal) pecharModal?.(false); });
 document.addEventListener("keydown", (e) => { if (e.key === "Escape" && pecharModal) pecharModal(false); });
 
+// ---------- Modo lectura (móbil) ----------
+// No móbil as receitas ábrense só para ler; o lapis activa a edición.
+let editando = !MOBIL;
+
+function aplicarModo() {
+  const lectura = MOBIL && !editando;
+  document.body.classList.toggle("lectura", lectura);
+  document.querySelectorAll(".folla-editor input, .folla-editor textarea").forEach((c) => {
+    if (c.type !== "file") c.readOnly = lectura;
+  });
+  // En lectura non se amosan as filas baleiras nin as seccións sen contido
+  document.querySelectorAll(".ingredientes li, .pasos li").forEach((li) => {
+    li.classList.toggle("baleira", [...li.querySelectorAll("input, textarea")].every((c) => !c.value.trim()));
+  });
+  document.querySelectorAll("#bloques section").forEach((s) => {
+    s.classList.toggle("baleira", !s.querySelector(".pasos li:not(.baleira)"));
+  });
+  el.ingredientes.closest("section").classList.toggle("baleira", !el.ingredientes.querySelector("li:not(.baleira)"));
+  el.notas.closest("section").classList.toggle("baleira", !el.notas.value.trim());
+  const editar = $("#editar");
+  editar.querySelector(".fa").className = "fa " + (editando ? "fa-check" : "fa-pencil");
+  editar.title = editar.ariaLabel = editando ? "Rematar de editar" : "Editar receita";
+  editar.classList.toggle("activo", editando);
+  if (lectura) document.activeElement?.blur();
+}
+
+function editar(si) {
+  editando = si;
+  aplicarModo();
+  if (si) document.querySelectorAll(".folla-editor textarea").forEach(axustarAltura);
+}
+
 // ---------- Botóns ----------
 $("#nova").onclick = nova;
 $("#engadir-ingrediente").onclick = () => engadirLinha("ingredientes");
 $("#engadir-bloque").onclick = engadirBloque;
 $("#exportar").onclick = exportarPDF;
+$("#editar").onclick = async () => {
+  if (editando) { await gardarAgora(); editar(false); } else editar(true);
+};
 $("#eliminar").onclick = async () => {
   if (!actual.id) { actual = baleira(); pintarEditor(); vista("lista"); return; }
   const si = await confirmar({

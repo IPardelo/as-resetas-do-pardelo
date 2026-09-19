@@ -1226,3 +1226,43 @@ body.mobil.vista-receita .lateral {
     display: none !important;
   }
 }
+
+/* ---------- Editar / ler (só móbil) ---------- */
+#editar {
+  display: none;
+}
+
+body.mobil #editar {
+  display: inline-grid;
+}
+
+body.lectura .engadir,
+body.lectura .engadir-bloque,
+body.lectura .borrar,
+body.lectura .borrar-bloque,
+body.lectura .quitar-foto,
+body.lectura #nova-etiqueta,
+body.lectura .chip button,
+body.lectura .categorias button:not(.activo),
+body.lectura .foto:not(.con-foto),
+body.lectura .baleira {
+  display: none !important;
+}
+
+body.lectura .estado {
+  visibility: hidden;
+}
+
+body.lectura .foto,
+body.lectura .categorias {
+  pointer-events: none;
+}
+
+body.lectura .folla-editor input,
+body.lectura .folla-editor textarea {
+  caret-color: transparent;
+}
+
+body.lectura .titulo {
+  border-bottom-color: transparent;
+}
