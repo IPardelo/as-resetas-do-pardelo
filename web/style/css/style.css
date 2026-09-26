@@ -1025,6 +1025,43 @@ kbd {
   text-overflow: ellipsis;
 }
 
+/* ---------- Nube (escritorio): estado discreto da sincronización ---------- */
+.nube-estado {
+  align-self: flex-start;
+  margin: -8px 0 -6px 4px;
+  padding: 2px 6px;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  color: var(--suave);
+  font-size: 12px;
+  opacity: .45;
+  cursor: pointer;
+  transition: opacity .15s, color .15s;
+}
+
+.nube-estado:hover {
+  opacity: 1;
+  color: var(--acento);
+}
+
+.nube-estado[hidden] {
+  display: none;
+}
+
+.nube-estado.sincronizando {
+  animation: latexo 1.2s ease-in-out infinite;
+}
+
+.nube-estado.erro {
+  color: var(--acento);
+  opacity: .8;
+}
+
+@keyframes latexo {
+  50% { opacity: .15; }
+}
+
 /* ---------- App de Android ---------- */
 .barra-mobil {
   display: none;

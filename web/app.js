@@ -705,6 +705,48 @@ document.addEventListener("keydown", (e) => {
 });
 window.addEventListener("beforeunload", () => { if (temporizador) gardarAgora(); });
 
+// ---------- Nube (só escritorio) ----------
+// Ao abrir a app (e ao volver á xanela) sincronízase a carpeta Receitas con Firebase:
+// súbese o novo do escritorio e baixa o novo do móbil. Despois de cada cambio, o
+// servidor sube o cambio el só. A nubiña da barra lateral indica o estado e,
+// ao premela, sincroniza agora.
+const botonNube = $("#nube-estado");
+let ultimaSync = 0;
+
+function pintarNube(clase, texto) {
+  botonNube.hidden = false;
+  botonNube.className = "nube-estado " + clase;
+  botonNube.title = texto;
+}
+
+async function sincronizar(avisarSempre) {
+  if (botonNube.classList.contains("sincronizando")) return;
+  ultimaSync = Date.now();
+  pintarNube("sincronizando", "Sincronizando coa nube…");
+  try {
+    await gardarAgora();
+    const r = await fetch("/api/nube/sincronizar", { method: "POST" }).then((x) => x.json());
+    if (r.configurada === false) { botonNube.hidden = true; return; }
+    if (r.erro) throw new Error(r.erro);
+    const hora = new Date().toLocaleTimeString("gl", { hour: "2-digit", minute: "2-digit", hour12: false });
+    if (r.erros.length) pintarNube("erro", "Sincronizado ás " + hora + ", con avisos:\n" + r.erros.join("\n"));
+    else pintarNube("", "Sincronizado coa nube ás " + hora + " · preme para sincronizar agora");
+    if (r.baixadas || r.borradas) await cargarLista();
+    const partes = [];
+    if (r.baixadas) partes.push(r.baixadas === 1 ? "1 receita do móbil" : r.baixadas + " receitas do móbil");
+    if (r.borradas) partes.push(r.borradas === 1 ? "1 borrada" : r.borradas + " borradas");
+    if (partes.length) avisar("Nube: " + partes.join(" · "));
+    else if (avisarSempre) avisar("Todo sincronizado");
+  } catch (err) {
+    pintarNube("erro", "Non se puido sincronizar: " + err.message);
+    if (avisarSempre) avisar("Non se puido sincronizar: " + err.message);
+  }
+}
+
+botonNube.onclick = () => sincronizar(true);
+// Ao volver á xanela (p. ex. despois de usar o móbil), como moito unha vez cada 30 s
+window.addEventListener("focus", () => { if (!MOBIL && Date.now() - ultimaSync > 30000) sincronizar(); });
+
 // ---------- Móbil: dúas pantallas (lista / receita) e menú ----------
 const menu = $("#menu-mobil");
 const botonMenu = $("#boton-menu");
@@ -751,4 +793,4 @@ window.atras = () => {
 // ---------- Inicio ----------
 if (MOBIL) { document.body.classList.add("mobil"); vista("lista"); }
 pintarEditor();
-cargarLista();
+cargarLista().then(() => { if (!MOBIL) sincronizar(); });
