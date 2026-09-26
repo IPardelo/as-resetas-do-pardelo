@@ -2,6 +2,7 @@ __pycache__/
 .idea/
 
 web/config/firebase.json
+.nube.json
 
 # Android Studio
 android/.gradle/

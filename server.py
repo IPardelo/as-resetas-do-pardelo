@@ -7,6 +7,7 @@ Normalmente non se abre directamente: "As Resetas do Pardelo.pyw" arráncao
 e amosa a app na súa propia xanela. Para probar no navegador:
     python server.py --navegador
 """
+import hashlib
 import json
 import os
 import re
@@ -18,6 +19,8 @@ import xml.etree.ElementTree as ET
 from datetime import datetime
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import unquote
+
+import nube
 
 BASE = os.path.dirname(os.path.abspath(__file__))
 RECEITAS = os.path.join(BASE, "Receitas")
@@ -92,7 +95,7 @@ def ler_receita(rid):
     }
 
 
-def gardar_receita(datos):
+def gardar_receita(datos, creada=None):
     titulo = (datos.get("titulo") or "").strip() or "Receita sen título"
     vello = datos.get("id") or ""
 
@@ -103,7 +106,7 @@ def gardar_receita(datos):
         rid, n = f"{base}-{n}", n + 1
 
     agora = datetime.now().isoformat(timespec="seconds")
-    creada = agora
+    creada = creada or agora
     if vello and os.path.exists(ruta(vello)):
         creada = ET.parse(ruta(vello)).getroot().get("creada", agora)
 
@@ -157,7 +160,34 @@ def gardar_receita(datos):
 
     if vello and vello != rid and os.path.exists(ruta(vello)):
         os.remove(ruta(vello))
+        nube.renomear(vello, rid)
     return ler_receita(rid)
+
+
+def pegada_local(rid):
+    """Resumo do contido do XML (para saber se se editou no escritorio). None se non existe."""
+    try:
+        with open(ruta(rid), "rb") as f:
+            return hashlib.sha1(f.read()).hexdigest()
+    except (OSError, ValueError):
+        return None
+
+
+class Local:
+    """O que necesita nube.sincronizar() para traballar coa carpeta Receitas."""
+
+    @staticmethod
+    def ids():
+        return [f[:-4] for f in os.listdir(RECEITAS) if f.endswith(".xml")]
+
+    ler = staticmethod(ler_receita)
+    gardar = staticmethod(gardar_receita)
+    pegada = staticmethod(pegada_local)
+
+    @staticmethod
+    def borrar(rid):
+        if os.path.exists(ruta(rid)):
+            os.remove(ruta(rid))
 
 
 def listar():
@@ -198,6 +228,8 @@ class Manexador(SimpleHTTPRequestHandler):
         return unquote(self.path.split("/api/receitas/", 1)[1]) if "/api/receitas/" in self.path else ""
 
     def do_GET(self):
+        if self.path == "/api/nube":
+            return self.json({"configurada": nube.configurada()})
         if self.path == "/api/receitas":
             return self.json(listar())
         if self.path.startswith("/api/receitas/"):
@@ -208,18 +240,27 @@ class Manexador(SimpleHTTPRequestHandler):
         return super().do_GET()
 
     def do_POST(self):
+        # Nube: subir o novo do escritorio e baixar o novo do móbil
+        if self.path == "/api/nube/sincronizar":
+            try:
+                return self.json(nube.sincronizar(Local))
+            except Exception as e:
+                return self.json({"erro": nube.erro_texto(e)}, 502)
         if self.path != "/api/receitas":
             return self.json({"erro": "?"}, 404)
         lonx = int(self.headers.get("Content-Length", 0))
         try:
             datos = json.loads(self.rfile.read(lonx).decode("utf-8"))
-            return self.json(gardar_receita(datos))
+            gardada = gardar_receita(datos)
+            nube.programar(Local)  # subir o cambio en segundo plano
+            return self.json(gardada)
         except Exception as e:
             return self.json({"erro": str(e)}, 400)
 
     def do_DELETE(self):
         try:
             os.remove(ruta(self.id_da_ruta()))
+            nube.programar(Local)  # borrala tamén da nube
             return self.json({"ok": True})
         except Exception:
             return self.json({"erro": "Non atopada"}, 404)

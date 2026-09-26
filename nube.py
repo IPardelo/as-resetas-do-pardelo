@@ -168,3 +168,119 @@ def renomear(vello, novo):
                 cambiou = True
         if cambiou:
             gardar_rexistro(rex)
+
+
+# ---------- Sincronización ----------
+
+def sincronizar(local):
+    """
+    Sincroniza a carpeta Receitas coa nube. `local` ofrece:
+      ids() -> lista de ids locais          ler(id) -> receita (dict, con creada/modificada)
+      gardar(datos, creada) -> receita      pegada(id) -> resumo do XML ou None
+      borrar(id)
+    Devolve un resumo do que fixo.
+    """
+    if not configurada():
+        return {"configurada": False}
+    with _bloqueo:
+        res = {"configurada": True, "subidas": 0, "baixadas": 0, "borradas": 0, "erros": []}
+        rex = ler_rexistro()
+        remotas = {r["nube"]: r for r in listar()}
+        locais = set(local.ids())
+        vistos = set()
+
+        def baixar(id_nube, r, id_local):
+            r = {**r, "id": id_local}
+            g = local.gardar(r, r.get("creada"))
+            rex[id_nube] = {"id": g["id"], "remota": r.get("modificada", ""), "local": local.pegada(g["id"])}
+            vistos.add(g["id"])
+            res["baixadas"] += 1
+
+        def enviar(id_nube, id_local):
+            r = local.ler(id_local)
+            try:
+                subir(id_nube, r)
+            except ValueError as e:
+                res["erros"].append(str(e))
+                return
+            rex[id_nube] = {"id": id_local, "remota": r.get("modificada", ""), "local": local.pegada(id_local)}
+            res["subidas"] += 1
+
+        # 1. Receitas que xa estaban sincronizadas
+        for id_nube, info in list(rex.items()):
+            id_local, r = info["id"], remotas.get(id_nube)
+            pegada = local.pegada(id_local) if id_local in locais else None
+            vistos.add(id_local)
+            cambio_local = pegada is not None and pegada != info["local"]
+            cambio_remoto = r is not None and r.get("modificada", "") != info["remota"]
+
+            if pegada is None:  # borrada no escritorio
+                if r is not None:
+                    borrar(id_nube)
+                    remotas.pop(id_nube)
+                    res["borradas"] += 1
+                del rex[id_nube]
+            elif r is None:  # desapareceu da nube sen marca de borrado: subila outra vez
+                enviar(id_nube, id_local)
+            elif r.get("borrada"):  # borrada no móbil
+                if cambio_local:
+                    enviar(id_nube, id_local)  # editada no escritorio despois: mándase o escritorio
+                else:
+                    local.borrar(id_local)
+                    borrar(id_nube)
+                    remotas.pop(id_nube)
+                    del rex[id_nube]
+                    res["borradas"] += 1
+            elif cambio_local:
+                enviar(id_nube, id_local)  # nos dous sitios ou só no escritorio: gaña o escritorio
+            elif cambio_remoto:
+                baixar(id_nube, r, id_local)
+
+        # 2. Novas no móbil
+        for id_nube, r in remotas.items():
+            if id_nube in rex:
+                continue
+            if r.get("borrada"):
+                borrar(id_nube)  # creada e borrada no móbil sen chegar ao escritorio
+            else:
+                baixar(id_nube, r, "")
+
+        # 3. Novas no escritorio
+        for id_local in sorted(locais - vistos):
+            enviar(novo_id(), id_local)
+
+        gardar_rexistro(rex)
+        return res
+
+
+# Sincronización en segundo plano despois de cada cambio no escritorio
+_temporizador = None
+
+
+def programar(local, segundos=3):
+    global _temporizador
+    if not configurada():
+        return
+    if _temporizador:
+        _temporizador.cancel()
+
+    def facer():
+        try:
+            sincronizar(local)
+        except Exception:
+            pass  # sen conexión: xa se fará na seguinte
+
+    _temporizador = threading.Timer(segundos, facer)
+    _temporizador.daemon = True
+    _temporizador.start()
+
+
+def erro_texto(e):
+    if isinstance(e, urllib.error.HTTPError):
+        try:
+            return json.loads(e.read().decode("utf-8"))["error"]["message"]
+        except Exception:
+            return f"HTTP {e.code}"
+    if isinstance(e, urllib.error.URLError):
+        return "Sen conexión"
+    return str(e)
