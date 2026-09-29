@@ -23,6 +23,16 @@ expórtaa a un PDF nun clic.
 
 <br>
 
+<div align="center">
+<table>
+<tr>
+<td align="center"><img src="assets/screenshots/busca.png" alt="Inicio" width="280"><br><sub><b>Inicio</b> — lista, filtros e busca por ingredientes</sub></td>
+<td align="center"><img src="assets/screenshots/bloques.png" alt="Editor" width="280"><br><sub><b>Editor</b> — bloques de pasos (biscoito, crema…)</sub></td>
+<td align="center"><img src="assets/screenshots/pdf.png" alt="PDF" width="200"><br><sub><b>PDF</b> — a receita lista para imprimir</sub></td>
+</tr>
+</table>
+</div>
+
 ## Por que
 
 Precisaba de unha maneira autoxestionada de gardar as receitas de familia. Normalmente as receitas acaban espalladas en cadernos, capturas de pantalla, mensaxes ou vídeos que un día desaparecen. As apps de receitas que existen queren que te rexistres, gardan todo
@@ -142,7 +152,7 @@ as-resetas-do-pardelo/
 │
 ├── android/                    # Proxecto de Android Studio (WebView que carga web/)
 ├── Receitas/                   # Unha receita por ficheiro .xml (os teus datos)
-└── assets/                     # Banner do README
+└── assets/                     # Banner e capturas de pantalla do README
 ```
 
 ## Evolución por versión
