@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='utf-8'?>
+<receita creada="2026-09-27T19:05:39" modificada="2026-10-08T19:39:07">
+  <titulo>Topokis</titulo>
+  <categoria>comida</categoria>
+  <ingredientes>
+    <ingrediente cantidade="">Follas de papel de arroz</ingrediente>
+    <ingrediente cantidade="">Aceite</ingrediente>
+    <ingrediente cantidade="">Gochugaru (pemento coreano en po)</ingrediente>
+    <ingrediente cantidade="">Gochujang</ingrediente>
+    <ingrediente cantidade="">Salsa de soia / azucre ou xarope</ingrediente>
+    <ingrediente cantidade="">Sementes de sésamo</ingrediente>
+  </ingredientes>
+  <pasos>
+    <paso>Mollamos as follas de papel de arroz e enrolámolas en tiras.</paso>
+    <paso>Cortámolas e espetámolas en palillos.</paso>
+    <paso>Na tixola quentamos aceite co gochugaru e engadimos o resto de ingredientes da salsa ata que espese.</paso>
+    <paso>Marcamos os espetos na tixola e bañámolos coa salsa.</paso>
+    <paso>Rematamos con sésamo.</paso>
+  </pasos>
+  <pasos nome="SALSA (ALTERNATIVA)">
+    <paso>3 cucharadas de auga</paso>
+    <paso>2 cucharadas de salsa de soia</paso>
+    <paso>1/2 cucharada de salsa de ostras</paso>
+    <paso>1/4 cucharada de pimenton picante</paso>
+    <paso>2 cucharadas de kechus</paso>
+  </pasos>
+</receita>

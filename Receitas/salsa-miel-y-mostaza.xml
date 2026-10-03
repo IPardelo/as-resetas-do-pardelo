@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='utf-8'?>
+<receita creada="2026-10-08T19:23:25" modificada="2026-10-08T19:30:46">
+  <titulo>Salsa miel y mostaza</titulo>
+  <categoria>comida</categoria>
+  <etiquetas>
+    <etiqueta>salsa</etiqueta>
+  </etiquetas>
+  <ingredientes>
+    <ingrediente cantidade="1">Allo</ingrediente>
+    <ingrediente cantidade="3 cucharadas">Aceite</ingrediente>
+    <ingrediente cantidade="1/2 cucharada">Mostaza</ingrediente>
+    <ingrediente cantidade="-">Pimienta</ingrediente>
+    <ingrediente cantidade="1 cucharada">Tomillo</ingrediente>
+    <ingrediente cantidade="Pellizco">Sal</ingrediente>
+    <ingrediente cantidade="2 cucharadas">Miel</ingrediente>
+    <ingrediente cantidade="3 cucharadas">Salsa de soja</ingrediente>
+    <ingrediente cantidade="1">Cerveza</ingrediente>
+  </ingredientes>
+</receita>

@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='utf-8'?>
+<receita creada="2026-10-08T19:20:58" modificada="2026-10-08T19:22:27">
+  <titulo>Aceite picante</titulo>
+  <categoria>comida</categoria>
+  <ingredientes>
+    <ingrediente cantidade="-">Aceite</ingrediente>
+    <ingrediente cantidade="2/3 follas">Laurel seco</ingrediente>
+    <ingrediente cantidade="Puñado">Chile de arbol / guindilla</ingrediente>
+    <ingrediente cantidade="Medio puñado">Pimienta negra</ingrediente>
+    <ingrediente cantidade="2/3">Allo</ingrediente>
+  </ingredientes>
+  <pasos>
+    <paso>Mezclar todo nun bote</paso>
+    <paso>Deixar reposar varios días</paso>
+  </pasos>
+</receita>

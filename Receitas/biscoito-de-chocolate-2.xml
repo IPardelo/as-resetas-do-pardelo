@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8'?>
+<receita creada="2026-09-27T19:03:06" modificada="2026-10-09T16:14:19">
+  <titulo>Biscoito de chocolate</titulo>
+  <categoria>postre</categoria>
+  <ingredientes>
+    <ingrediente cantidade="8">Ovos</ingrediente>
+    <ingrediente cantidade="50g">Azucre</ingrediente>
+    <ingrediente cantidade="100g">Manteiga</ingrediente>
+    <ingrediente cantidade="250g">Chocolate negro 70 %</ingrediente>
+    <ingrediente cantidade="1/2 litro">Nata</ingrediente>
+    <ingrediente cantidade="50 g">Azucre glas de vainilla</ingrediente>
+  </ingredientes>
+  <pasos nome="biscoito">
+    <paso>Prequentamos o forno a 160 ºC e poñemos auga a quentar (para o baño maría)</paso>
+    <paso>Separamos claras e xemas</paso>
+    <paso>Montamos as xemas coa metade do azucre (25 g) ata que branqueen</paso>
+    <paso>Fundimos a manteiga e o chocolate no microondas a 600-800 W, de medio minuto en medio minuto, removendo</paso>
+    <paso>Montamos as claras co resto do azucre (o recipiente ben limpo, sen graxa)</paso>
+    <paso>Mesturamos o chocolate coas xemas e engadimos as claras con movementos envolventes</paso>
+    <paso>Botamos nun molde engraxado e cocemos ao baño maría</paso>
+  </pasos>
+  <pasos nome="cobertura">
+    <paso>Semimontamos a nata e engadimos o azucre glas de vainilla</paso>
+  </pasos>
+</receita>
