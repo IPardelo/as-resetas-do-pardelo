@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8'?>
+<receta creada="2026-09-27T18:45:44" modificada="2026-09-27T19:05:47">
+  <titulo>Panciños de xema na freidora de aire</titulo>
+  <categoria>postre</categoria>
+  <ingredientes>
+    <ingrediente>1 ovo</ingrediente>
+    <ingrediente>1/4 de cunca de azucre</ingrediente>
+    <ingrediente>10g de fermento seco de panadeiro (1 cullerada rasa)</ingrediente>
+    <ingrediente>1 cunca de leite morno</ingrediente>
+    <ingrediente>1/4 de cunca de aceite</ingrediente>
+    <ingrediente>3 cuncas de fariña común</ingrediente>
+    <ingrediente>1/2 culleriña de sal</ingrediente>
+    <ingrediente>Ovo batido para pintar</ingrediente>
+  </ingredientes>
+  <pasos>
+    <paso>Mesturamos o ovo, o azucre e o fermento.</paso>
+    <paso>Engadimos o leite morno e o aceite e seguimos batendo.</paso>
+    <paso>Botamos a fariña e a sal, e amasamos na mesa cun pouco de aceite.</paso>
+    <paso>Facemos unha bóla e deixámola repousar tapada ata que dobre o volume.</paso>
+    <paso>Estiramos a masa e dividímola en 12 anacos iguais; facemos bóliñas.</paso>
+    <paso>Poñémolas no cesto da freidora engraxado e deixámolas levedar 20 minutos máis.</paso>
+    <paso>Pintámolas con ovo batido.</paso>
+    <paso>Freidora de aire a 125 ºC durante 15 minutos.</paso>
+  </pasos>
+</receta>

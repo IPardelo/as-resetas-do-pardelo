@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8'?>
+<receta creada="2026-09-27T14:10:17" modificada="2026-09-27T14:25:16">
+  <titulo>Galletas de Daniela</titulo>
+  <categoria>postre</categoria>
+  <ingredientes>
+    <ingrediente>350g de fariña</ingrediente>
+    <ingrediente>225g de mantequilla</ingrediente>
+    <ingrediente>210g de azucar moreno</ingrediente>
+    <ingrediente>100g de azucar blanco</ingrediente>
+    <ingrediente>2 ovos</ingrediente>
+    <ingrediente>2 cucharas de esencia de vainilla</ingrediente>
+    <ingrediente>1/2 cucharada de sal</ingrediente>
+    <ingrediente>1 cucharada de bicarbonato</ingrediente>
+    <ingrediente>350g de chocolate en pepitas</ingrediente>
+  </ingredientes>
+  <pasos>
+    <paso>Mezclamos a mantequilla, o azucre e os ovos</paso>
+    <paso>Engadimos a vainilla</paso>
+    <paso>En outro recipiente engadimos a fariña, o bicarbonato e o sal e mesturámolas ben</paso>
+    <paso>En tres tandadas mesturamos todo ata que quede homoxéneo</paso>
+    <paso>Engadimos o chocolate</paso>
+    <paso>Poñémolas nun plastico transparente en forma de "churro" no conxelador 2/3 horas</paso>
+    <paso>Unha vez conxeladas, facémolas no forno</paso>
+  </pasos>
+</receta>

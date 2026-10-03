@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='utf-8'?>
+<receta creada="2026-09-27T18:13:50" modificada="2026-09-27T18:18:10">
+  <titulo>Bica mantecada de Trives</titulo>
+  <categoria>postre</categoria>
+  <ingredientes>
+    <ingrediente>4 ovos</ingrediente>
+    <ingrediente>300g de azucre</ingrediente>
+    <ingrediente>200g de mantequilla</ingrediente>
+    <ingrediente>200g de nata líquida</ingrediente>
+    <ingrediente>400g de fariña</ingrediente>
+    <ingrediente>1 sobre de levadura Royal</ingrediente>
+  </ingredientes>
+  <pasos>
+    <paso>Batir os ovos, o azucre e a mantequilla</paso>
+    <paso>Engadir a nata líquida e mesturar</paso>
+    <paso>Mesturar a fariña ca levadura, engadir e batir</paso>
+    <paso>Forno a 180º 40/50 min</paso>
+  </pasos>
+</receta>

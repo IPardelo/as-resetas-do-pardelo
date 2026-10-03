@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+<receta creada="2026-09-27T19:25:22" modificada="2026-09-27T19:31:10">
+  <titulo>Patacas Foster's</titulo>
+  <categoria>comida</categoria>
+  <ingredientes>
+    <ingrediente>Patacas</ingrediente>
+    <ingrediente>Salsa ranchera</ingrediente>
+    <ingrediente>Queixo raiado</ingrediente>
+    <ingrediente>Bacon picado</ingrediente>
+    <ingrediente>Nata</ingrediente>
+    <ingrediente>Maionesa</ingrediente>
+    <ingrediente>Pimienta e allo en polvo</ingrediente>
+  </ingredientes>
+  <pasos nome="salsa">
+    <paso>Mesturamos a partes iguais maionesa e nata</paso>
+    <paso>Engadimos allo en polvo e pementa moída abundantemente</paso>
+  </pasos>
+  <pasos nome="patacas">
+    <paso>Friximos as patacas</paso>
+    <paso>Poñemos unha capa de patacas mesturadas en salsa, outra de bacon e outra de patacas mesturadas co queixo e algo de salsa si nos sobrara</paso>
+    <paso>Gratinamos todo</paso>
+  </pasos>
+</receta>

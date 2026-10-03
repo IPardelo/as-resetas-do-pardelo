@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8'?>
+<receta creada="2026-09-27T18:57:19" modificada="2026-09-27T18:58:04">
+  <titulo>Mac and cheese</titulo>
+  <categoria>comida</categoria>
+  <ingredientes>
+    <ingrediente>Queixo cheddar</ingrediente>
+    <ingrediente>Queixo emmental</ingrediente>
+    <ingrediente>Mozzarella</ingrediente>
+    <ingrediente>50g de manteiga</ingrediente>
+    <ingrediente>Sal, pementa, allo en po e 1 cullerada de pemento doce</ingrediente>
+    <ingrediente>3 culleradas de fariña</ingrediente>
+    <ingrediente>1/2 kg de pasta (macarróns), cocida</ingrediente>
+    <ingrediente>1 vaso de leite</ingrediente>
+    <ingrediente>400ml de nata para cociñar</ingrediente>
+  </ingredientes>
+  <pasos>
+    <paso>Mesturamos os tres queixos.</paso>
+    <paso>Fundimos a manteiga nunha tixola e engadimos as especias.</paso>
+    <paso>Botamos a fariña e mesturamos.</paso>
+    <paso>Engadimos o leite e seguimos removendo.</paso>
+    <paso>Engadimos a nata e o queixo.</paso>
+    <paso>Mesturamos coa pasta cocida.</paso>
+    <paso>Forno 20 minutos a 180 ºC.</paso>
+  </pasos>
+</receta>

@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='utf-8'?>
+<receta creada="2026-09-27T18:45:17" modificada="2026-09-27T18:45:30">
+  <titulo>Porros asados con mel</titulo>
+  <categoria>comida</categoria>
+  <ingredientes>
+    <ingrediente>Porros</ingrediente>
+    <ingrediente>Mel</ingrediente>
+    <ingrediente>Sal grosa</ingrediente>
+    <ingrediente>Pementa negra</ingrediente>
+    <ingrediente>Recheo ao gusto (cebola caramelizada, etc.)</ingrediente>
+    <ingrediente>Reladura de lima</ingrediente>
+    <ingrediente>Queixo trufado</ingrediente>
+    <ingrediente>Algo verde para rematar (herbas frescas)</ingrediente>
+  </ingredientes>
+  <pasos>
+    <paso>Partimos os porros pola metade a lo longo.</paso>
+    <paso>Poñemos papel de forno nunha bandexa cunha capa de mel e outra de sal grosa.</paso>
+    <paso>Colocamos os porros enriba e botamos pementa negra.</paso>
+    <paso>Enchemos o oco do porro co recheo que queiramos (cebola caramelizada, por exemplo).</paso>
+    <paso>Forno 20 minutos a 180 ºC, ata que se caramelicen.</paso>
+    <paso>Rematamos con reladura de lima, queixo trufado e un pouco de verde.</paso>
+    <paso>Idea extra: tamén serve para facer un sándwich con xamón cocido e queixo.</paso>
+  </pasos>
+</receta>

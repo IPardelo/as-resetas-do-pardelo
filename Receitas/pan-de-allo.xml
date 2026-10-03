@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='utf-8'?>
+<receta creada="2026-09-27T19:08:07" modificada="2026-09-27T19:08:18">
+  <titulo>Pan de allo</titulo>
+  <ingredientes>
+    <ingrediente>Dentes de allo pelados</ingrediente>
+    <ingrediente>Aceite de oliva</ingrediente>
+    <ingrediente>Sal</ingrediente>
+    <ingrediente>Masa de pan (a habitual)</ingrediente>
+    <ingrediente>Manteiga</ingrediente>
+    <ingrediente>Parmesán</ingrediente>
+    <ingrediente>Mozzarella (ou outro queixo que funda)</ingrediente>
+  </ingredientes>
+  <pasos>
+    <paso>Poñemos os allos pelados nunha bandexa con aceite e sal e confitámolos 1 hora a 150 ºC.</paso>
+    <paso>Cocemos a masa de pan a 220 ºC durante 10 minutos.</paso>
+    <paso>Mentres, mesturamos manteiga, os allos confitados e parmesán.</paso>
+    <paso>Untamos a manteiga de allo por todo o pan.</paso>
+    <paso>Poñemos parmesán e mozzarella por riba.</paso>
+    <paso>Ao forno ata que funda o queixo.</paso>
+  </pasos>
+</receta>

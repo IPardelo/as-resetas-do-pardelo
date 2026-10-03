@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='utf-8'?>
+<receta creada="2026-09-27T14:37:14" modificada="2026-09-28T14:27:06">
+  <titulo>Crema de castañas</titulo>
+  <categoria>postre</categoria>
+  <ingredientes>
+    <ingrediente cantidade="200g">Castañas</ingrediente>
+    <ingrediente cantidade="Medio vaso">Mel</ingrediente>
+    <ingrediente cantidade="">Leite</ingrediente>
+  </ingredientes>
+  <pasos>
+    <paso>Ferver 20/30 minutos as castañas</paso>
+    <paso>Pelalas</paso>
+    <paso>Na mesma auga (colada) na que as fixemos, engadir un bo chorro de mel e facer almibar</paso>
+    <paso>Triturar todo</paso>
+    <paso>Si queda demasiado espeso, correxir con leite</paso>
+  </pasos>
+  <notas>A textura ten que ser algo similar a crema de verduras</notas>
+</receta>

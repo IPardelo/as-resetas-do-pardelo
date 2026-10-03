@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='utf-8'?>
+<receta creada="2026-09-27T18:07:21" modificada="2026-09-27T18:11:00">
+  <titulo>Champiñones en salsa</titulo>
+  <categoria>comida</categoria>
+  <ingredientes>
+    <ingrediente>1 bandexa de champiñóns</ingrediente>
+    <ingrediente>1 cebola</ingrediente>
+    <ingrediente>1 vaso de viño branco</ingrediente>
+    <ingrediente>1 vaso d leite</ingrediente>
+  </ingredientes>
+  <pasos>
+    <paso>Pochamos cebola</paso>
+    <paso>Engadimos os champiñóns</paso>
+    <paso>Cando esten feitos, engadimos o viño</paso>
+    <paso>Cando se evapore engadimos unha cucharada de Philadelpia e removemos ata que se derreta</paso>
+    <paso>Engadimos un vaso de leite e salpimentamos</paso>
+    <paso>Removemos ata que reduza</paso>
+  </pasos>
+</receta>

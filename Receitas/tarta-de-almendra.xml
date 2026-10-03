@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='utf-8'?>
+<receta creada="2026-09-27T14:00:55" modificada="2026-09-27T14:25:11">
+  <titulo>Tarta de almendra</titulo>
+  <categoria>postre</categoria>
+  <ingredientes>
+    <ingrediente>300g de azucre</ingrediente>
+    <ingrediente>300g de almendra rayada (no molida)</ingrediente>
+    <ingrediente>6 ovos</ingrediente>
+    <ingrediente>1 limón (vaise usar a raiadura)</ingrediente>
+    <ingrediente>Pizca de canela</ingrediente>
+    <ingrediente>Brandy</ingrediente>
+    <ingrediente>7 cucharadas de fariña</ingrediente>
+    <ingrediente>1 sobre de levadura Royal</ingrediente>
+  </ingredientes>
+  <pasos>
+    <paso>Poñer a punto de neve as claras</paso>
+    <paso>Mezclar todo o resto e engadir as claras cando sea homoxéneo</paso>
+    <paso>Meter no forno 140º 1 hora</paso>
+  </pasos>
+</receta>

@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='utf-8'?>
+<receta creada="2026-09-27T13:36:58" modificada="2026-09-27T14:25:17">
+  <titulo>Flan Doña Rita</titulo>
+  <categoria>postre</categoria>
+  <ingredientes>
+    <ingrediente>6 láminas de gelatina ou 2 sobres de cuajada</ingrediente>
+    <ingrediente>8 cucharadas de azucre</ingrediente>
+    <ingrediente>1/2 litro de leite</ingrediente>
+    <ingrediente>2 tarros de Philadelpia 200g</ingrediente>
+    <ingrediente>1/2 litro de nata</ingrediente>
+    <ingrediente>Caramelo</ingrediente>
+  </ingredientes>
+  <pasos>
+    <paso>Mezclar ben o leite, a nata, philadelpia, cuajada e o azucre</paso>
+    <paso>Ferver o anterior e remover constantemente</paso>
+    <paso>Poñer caramelo na base do molde e verter a mezcla</paso>
+    <paso>Poñer na nevera ata o día seguinte</paso>
+  </pasos>
+</receta>

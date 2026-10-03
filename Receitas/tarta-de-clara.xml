@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8'?>
+<receta creada="2026-09-27T13:42:05" modificada="2026-09-27T14:25:09">
+  <titulo>Tarta de Clara</titulo>
+  <categoria>postre</categoria>
+  <ingredientes>
+    <ingrediente>1,5 litros de nata</ingrediente>
+    <ingrediente>1 litro de leite</ingrediente>
+    <ingrediente>6 ovos</ingrediente>
+    <ingrediente>350g de azucre</ingrediente>
+    <ingrediente>2 tarros de Philadelpia 250g</ingrediente>
+    <ingrediente>2 sobres de xelatina de limón</ingrediente>
+    <ingrediente>240g de chocolate de fundir</ingrediente>
+    <ingrediente>100g de mantequilla</ingrediente>
+    <ingrediente>150g de fariña</ingrediente>
+    <ingrediente>Sansón</ingrediente>
+    <ingrediente>Sobaos</ingrediente>
+  </ingredientes>
+  <pasos nome="crema pastelera">
+    <paso>Infusionar a leite</paso>
+    <paso>Mezclar 4 ovos e duas xemas co leite infusionado</paso>
+    <paso>Mesturamos o anterior coa fariña con varillas ata que non queden grumos</paso>
+    <paso>Ferver ata que espese sen parar de mover</paso>
+  </pasos>
+  <pasos nome="tarta" />
+</receta>

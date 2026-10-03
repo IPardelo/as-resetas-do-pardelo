@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='utf-8'?>
+<receta creada="2026-09-27T18:47:55" modificada="2026-09-27T18:55:25">
+  <titulo>Paté de fuet</titulo>
+  <categoria>comida</categoria>
+  <ingredientes>
+    <ingrediente>200g de fuet</ingrediente>
+    <ingrediente>60g de manteiga</ingrediente>
+    <ingrediente>50g de mascarpone</ingrediente>
+    <ingrediente>2 culleradas de nata líquida</ingrediente>
+    <ingrediente>1/2 culleriña de brandy</ingrediente>
+    <ingrediente>1/2 culleriña de cebolete (ou ceboliño) fresco</ingrediente>
+    <ingrediente>1/2 culleriña de pementa negra moída no momento</ingrediente>
+  </ingredientes>
+  <pasos>
+    <paso>Pelamos e cortamos o fuet.</paso>
+    <paso>Poñemos todos os ingredientes na picadora (Thermomix) e trituramos ata ter un paté.</paso>
+    <paso>Pasamos a un bote e deixamos na neveira como mínimo un par de horas.</paso>
+    <paso>Servimos untado en pan tostado.</paso>
+  </pasos>
+</receta>

@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='utf-8'?>
+<receta creada="2026-09-27T19:08:50" modificada="2026-09-27T19:10:23">
+  <titulo>Rissotto de guanciale</titulo>
+  <categoria>comida</categoria>
+  <ingredientes>
+    <ingrediente>Cebola</ingrediente>
+    <ingrediente>3 dentes de allo</ingrediente>
+    <ingrediente>4 salchichas</ingrediente>
+    <ingrediente>Arroz arborio ou carnaroli (teñen máis almidón)</ingrediente>
+    <ingrediente>Viño branco</ingrediente>
+    <ingrediente>Caldo quente</ingrediente>
+    <ingrediente>Manteiga</ingrediente>
+    <ingrediente>Queixo parmesán</ingrediente>
+    <ingrediente>Tomiño e pementa negra</ingrediente>
+  </ingredientes>
+  <pasos>
+    <paso>Facemos o guanciale e reservamos.</paso>
+    <paso>Na mesma graxa pochamos a cebola 8 minutos e o allo 1 minuto.</paso>
+    <paso>Engadimos o arroz e nacarámolo un par de minutos.</paso>
+    <paso>Botamos viño branco e reducimos.</paso>
+    <paso>Engadimos case todo o caldo (gardando un cuarto) e deixamos cocer sen remover, só de cando en vez.</paso>
+    <paso>Se fai falta, engadimos o caldo que gardamos.</paso>
+    <paso>Cando o arroz estea ao dente, mantecamos con manteiga e parmesán.</paso>
+    <paso>Volvemos engadir o guanciale e rematamos con tomiño e pementa negra.</paso>
+  </pasos>
+</receta>

@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+<receta creada="2026-09-27T13:21:55" modificada="2026-09-27T14:25:19">
+  <titulo>Brazo de gitano</titulo>
+  <categoria>postre</categoria>
+  <ingredientes>
+    <ingrediente>6/7 ovos</ingrediente>
+    <ingrediente>6 cucharadas de azucar</ingrediente>
+    <ingrediente>6 cucharadas de fariña</ingrediente>
+  </ingredientes>
+  <pasos nome="Biscoito">
+    <paso>Batir as xemas co azucre</paso>
+    <paso>Engadir a fariña e mesturar</paso>
+    <paso>Facer a punto de neve as claras</paso>
+    <paso>Mesturar todo</paso>
+    <paso>Poñer no forno 160º 20 minutos</paso>
+  </pasos>
+  <pasos nome="crema">
+    <paso>Infusionar a leite</paso>
+    <paso>Mezclar 4 ovos e duas xemas co leite infusionado</paso>
+    <paso>Mesturamos o anterior coa fariña con varillas ata que non queden grumos</paso>
+    <paso>Ferver ata que espese sen parar de mover</paso>
+  </pasos>
+</receta>

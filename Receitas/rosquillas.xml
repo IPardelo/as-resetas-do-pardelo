@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='utf-8'?>
+<receta creada="2026-09-27T13:50:35" modificada="2026-09-27T14:25:13">
+  <titulo>Rosquillas</titulo>
+  <categoria>postre</categoria>
+  <ingredientes>
+    <ingrediente>200g de fariña de arroz</ingrediente>
+    <ingrediente>80g de almidón de tapioca</ingrediente>
+    <ingrediente>6g de psilium</ingrediente>
+    <ingrediente>90g de azucar</ingrediente>
+    <ingrediente>3g de sal</ingrediente>
+    <ingrediente>8 gramos de levadura Royal</ingrediente>
+    <ingrediente>2 ovos</ingrediente>
+    <ingrediente>40g de leite</ingrediente>
+    <ingrediente>30g de licor de anís</ingrediente>
+    <ingrediente>20g de aceite de oliva</ingrediente>
+    <ingrediente>1 limón (vaise usar a raiadura)</ingrediente>
+    <ingrediente>Levadura</ingrediente>
+  </ingredientes>
+  <pasos>
+    <paso>Mesturar as fariñas, a levadura e a sal</paso>
+    <paso>En outro recipiente mesturamos os ovos e o azucre</paso>
+    <paso>No recipiente do paso dous mesturamos os líquidos</paso>
+    <paso>Mesturamos todo</paso>
+    <paso>Repousar media hora tapada cun trapo</paso>
+    <paso>Freir</paso>
+  </pasos>
+</receta>

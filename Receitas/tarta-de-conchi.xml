@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='utf-8'?>
+<receta creada="2026-09-27T13:12:55" modificada="2026-09-27T14:25:08">
+  <titulo>Tarta de Conchi</titulo>
+  <categoria>postre</categoria>
+  <ingredientes>
+    <ingrediente>1 yogurt natural</ingrediente>
+    <ingrediente>1 vaso de nata</ingrediente>
+    <ingrediente>1 vaso de leite</ingrediente>
+    <ingrediente>1 vaso de fariña</ingrediente>
+    <ingrediente>1 vaso de azucar</ingrediente>
+    <ingrediente>2 quesitos</ingrediente>
+    <ingrediente>1/2 tarrina de Philadelpia</ingrediente>
+    <ingrediente>4 ovos</ingrediente>
+  </ingredientes>
+  <pasos>
+    <paso>Mezclamos todo</paso>
+    <paso>O forno 180º 30min.</paso>
+  </pasos>
+</receta>
